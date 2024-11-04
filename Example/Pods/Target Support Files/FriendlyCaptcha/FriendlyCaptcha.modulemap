@@ -1,0 +1,6 @@
+framework module FriendlyCaptcha {
+  umbrella header "FriendlyCaptcha-umbrella.h"
+
+  export *
+  module * { export * }
+}

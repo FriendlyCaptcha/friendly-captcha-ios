@@ -1,0 +1,32 @@
+{
+  "name": "FriendlyCaptcha",
+  "version": "0.0.0",
+  "summary": "Friendly Captcha for iOS",
+  "swift_versions": "6.0",
+  "authors": "aaron@friendlycaptcha.com",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "homepage": "https://github.com/FriendlyCaptcha/friendly-captcha-ios",
+  "source": {
+    "git": "https://github.com/FriendlyCaptcha/friendly-captcha-ios.git",
+    "tag": "0.0.0"
+  },
+  "default_subspecs": "Core",
+  "platforms": {
+    "osx": null,
+    "ios": null,
+    "tvos": null,
+    "visionos": null,
+    "watchos": null
+  },
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "FriendlyCaptcha/*",
+      "frameworks": "WebKit"
+    }
+  ],
+  "swift_version": "6.0"
+}

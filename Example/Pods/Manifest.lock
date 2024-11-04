@@ -1,0 +1,18 @@
+PODS:
+  - FriendlyCaptcha (0.0.0):
+    - FriendlyCaptcha/Core (= 0.0.0)
+  - FriendlyCaptcha/Core (0.0.0)
+
+DEPENDENCIES:
+  - FriendlyCaptcha (from `../FriendlyCaptcha`)
+
+EXTERNAL SOURCES:
+  FriendlyCaptcha:
+    :path: "../FriendlyCaptcha"
+
+SPEC CHECKSUMS:
+  FriendlyCaptcha: 1197c2cbda77f5c7e490f1b39a37f899600de9c8
+
+PODFILE CHECKSUM: dd7e1ab6c4e5aca151a0db9fe8892d5342ffd96f
+
+COCOAPODS: 1.15.2
