@@ -1,12 +1,12 @@
 PODS:
   - FriendlyCaptcha (0.1.0)
   - Nimble (10.0.0)
-  - Quick (2.2.1)
+  - Quick (5.0.1)
 
 DEPENDENCIES:
   - FriendlyCaptcha (from `../`)
   - Nimble (~> 10.0.0)
-  - Quick (~> 2.2.0)
+  - Quick (~> 5.0.0)
 
 SPEC REPOS:
   trunk:
@@ -20,8 +20,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   FriendlyCaptcha: c3c067a7b9313b42a59ba243c657dc1864d706b3
   Nimble: 5316ef81a170ce87baf72dd961f22f89a602ff84
-  Quick: f5754d69b7013f5864c29aab9ae6f0c79c5bc200
+  Quick: 749aa754fd1e7d984f2000fe051e18a3a9809179
 
-PODFILE CHECKSUM: 6967cb3c309e29685e52b2e953ca41356a306117
+PODFILE CHECKSUM: 5cfb32e94bdcf5af0048c35fb987ce7b5aa5363b
 
 COCOAPODS: 1.16.2
