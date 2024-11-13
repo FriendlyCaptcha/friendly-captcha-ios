@@ -11,7 +11,7 @@ public class FriendlyCaptcha {
 
     private var widgetState: WidgetState = .initial
     private var response: String = ""
-    
+
     public init(
         sitekey: String,
         apiEndpoint: String = "global",
@@ -84,19 +84,19 @@ public class FriendlyCaptcha {
 </html>
 """
     }
-    
+
     public func onComplete(_ handler: @escaping (WidgetCompleteEvent) -> Void) {
         viewController.handleComplete = handler
     }
-    
+
     public func onError(_ handler: @escaping (WidgetErrorEvent) -> Void) {
         viewController.handleError = handler
     }
-    
+
     public func onExpire(_ handler: @escaping (WidgetExpireEvent) -> Void) {
         viewController.handleExpire = handler
     }
-    
+
     public func onStateChange(_ handler: @escaping (WidgetStateChangeEvent) -> Void) {
         viewController.handleStateChange = { (message) in
             self.widgetState = message.state
@@ -104,21 +104,29 @@ public class FriendlyCaptcha {
             handler(message)
         }
     }
-    
+
     public func getState() -> WidgetState {
         widgetState
     }
-    
+
     public func getResponse() -> String {
         response
     }
-    
+
+    public func Widget() -> UIViewController {
+        viewController
+    }
+
     public func start() {
         viewController.start()
     }
-    
-    public func Widget() -> UIViewController {
-        viewController
+
+    public func reset() {
+        viewController.reset()
+    }
+
+    public func destroy() {
+        viewController.destroy()
     }
 }
 
@@ -131,7 +139,7 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler {
     var handleStateChange: (WidgetStateChangeEvent) -> Void = { _ in }
 
     private var webView: WKWebView!
-    
+
     override func loadView() {
         let contentController = WKUserContentController()
         contentController.add(self, name: "bus")
@@ -142,7 +150,7 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler {
         webView = WKWebView(frame: .zero, configuration: config)
         view = webView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if let htmlContent = htmlContent {
@@ -177,9 +185,13 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler {
     func start() {
         webView.evaluateJavaScript("window.widget && window.widget.start();", completionHandler: nil)
     }
-    
+
     func reset() {
         webView.evaluateJavaScript("window.widget && window.widget.reset();", completionHandler: nil)
+    }
+
+    func destroy() {
+        webView.evaluateJavaScript("window.widget && window.widget.destroy();", completionHandler: nil)
     }
 }
 
