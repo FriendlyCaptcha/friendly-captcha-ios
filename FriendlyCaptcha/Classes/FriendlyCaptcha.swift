@@ -217,35 +217,35 @@ public enum WidgetTheme {
 }
 
 public struct WidgetCompleteEvent: Codable {
-    let state: WidgetState
-    let response: String
-    let id: String
+    public let state: WidgetState
+    public let response: String
+    public let id: String
 }
 
 public struct WidgetErrorEvent: Codable {
-    let state: WidgetState
-    let response: String
-    let error: WidgetErrorData
-    let id: String
+    public let state: WidgetState
+    public let response: String
+    public let error: WidgetErrorData
+    public let id: String
 }
 
 public struct WidgetExpireEvent: Codable {
-    let state: WidgetState
-    let response: String
-    let id: String
+    public let state: WidgetState
+    public let response: String
+    public let id: String
 }
 
 public struct WidgetStateChangeEvent: Codable {
-    let error: WidgetErrorData?
-    let id: String
-    let response: String
-    let state: WidgetState
+    public let error: WidgetErrorData?
+    public let id: String
+    public let response: String
+    public let state: WidgetState
 }
 
 public struct WidgetErrorData: Codable {
-    let code: WidgetErrorCode
-    let detail: String
-    let title: String?
+    public let code: WidgetErrorCode
+    public let detail: String
+    public let title: String?
 }
 
 public enum WidgetErrorCode: String, Codable {
