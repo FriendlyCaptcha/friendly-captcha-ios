@@ -43,7 +43,7 @@ public class FriendlyCaptcha {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body style="margin: 0">
-  <div id="widget" style="width: 100%"></div>
+  <div id="widget" style="width: 100%; font-size: 16px"></div>
   <script src="https://cdn.jsdelivr.net/npm/@friendlycaptcha/sdk@\(JS_SDK_VERSION)/site.compat.min.js"></script>
   <script>
     function send(type, data) {
