@@ -11,6 +11,7 @@ public class FriendlyCaptcha {
 
     private var widgetState: WidgetState = .initial
     private var response: String = ""
+    private var id: String = ""
 
     public init(
         sitekey: String,
@@ -30,6 +31,7 @@ public class FriendlyCaptcha {
         viewController.handleStateChange = { message in
             self.widgetState = message.state
             self.response = message.response
+            self.id = message.id
         }
         viewController.htmlContent = """
 <!DOCTYPE html>
@@ -126,6 +128,16 @@ public class FriendlyCaptcha {
     }
 
     public func destroy() {
+        widgetState = .destroyed
+        response = ".DESTROYED"
+
+        viewController.handleStateChange(WidgetStateChangeEvent(error: nil, id: id, response: response, state: widgetState))
+
+        viewController.handleComplete = { _ in }
+        viewController.handleError = { _ in }
+        viewController.handleExpire = { _ in }
+        viewController.handleStateChange = { _ in }
+
         viewController.destroy()
     }
 }
@@ -191,7 +203,16 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler {
     }
 
     func destroy() {
-        webView.evaluateJavaScript("window.widget && window.widget.destroy();", completionHandler: nil)
+        // Remove the message handler
+        webView.configuration.userContentController.removeScriptMessageHandler(forName: "bus")
+
+        // Stop any loading and clear the WebView
+        webView.stopLoading()
+        webView.navigationDelegate = nil
+        webView.uiDelegate = nil
+        webView.removeFromSuperview()
+        webView = nil
+        view = nil
     }
 }
 
