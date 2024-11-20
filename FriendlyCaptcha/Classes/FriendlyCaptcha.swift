@@ -142,7 +142,7 @@ public class FriendlyCaptcha {
     }
 }
 
-class WidgetViewController: UIViewController, WKScriptMessageHandler {
+class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate {
     var htmlContent: String?
 
     var handleComplete: (WidgetCompleteEvent) -> Void = { _ in }
@@ -160,6 +160,7 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler {
         config.userContentController = contentController
 
         webView = WKWebView(frame: .zero, configuration: config)
+        webView.navigationDelegate = self
         view = webView
     }
 
@@ -194,6 +195,34 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler {
         }
     }
 
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+
+        // Handle links.
+        if navigationAction.navigationType == .linkActivated {
+
+            // Make sure tt ahe URL is set.
+            guard let url = navigationAction.request.url else {
+                decisionHandler(.allow)
+                return
+            }
+
+            // Check for the scheme component.
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+            if components?.scheme == "http" || components?.scheme == "https" {
+
+                // Open the link in the external browser.
+                UIApplication.shared.open(url)
+
+                // Cancel the decisionHandler because we managed the navigationAction.
+                decisionHandler(.cancel)
+            } else {
+                decisionHandler(.allow)
+            }
+        } else {
+            decisionHandler(.allow)
+        }
+    }
+
     func start() {
         webView.evaluateJavaScript("window.widget && window.widget.start();", completionHandler: nil)
     }
@@ -209,7 +238,6 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler {
         // Stop any loading and clear the WebView
         webView.stopLoading()
         webView.navigationDelegate = nil
-        webView.uiDelegate = nil
         webView.removeFromSuperview()
         webView = nil
         view = nil
