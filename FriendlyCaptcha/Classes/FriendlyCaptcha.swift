@@ -1,6 +1,9 @@
 import UIKit
 import WebKit
 
+let VERSION = "1.0.0"
+let JS_SDK_VERSION = "0.1.9"
+
 public class FriendlyCaptcha {
     private let sitekey: String
     private let apiEndpoint: String
@@ -41,7 +44,7 @@ public class FriendlyCaptcha {
 </head>
 <body style="margin: 0">
   <div id="widget" style="width: 100%"></div>
-  <script src="https://cdn.jsdelivr.net/npm/@friendlycaptcha/sdk@0.1.8/site.compat.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@friendlycaptcha/sdk@\(JS_SDK_VERSION)/site.compat.min.js"></script>
   <script>
     function send(type, data) {
         window.webkit.messageHandlers.bus.postMessage({type, data});
@@ -158,6 +161,7 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
 
         let config = WKWebViewConfiguration()
         config.userContentController = contentController
+        config.applicationNameForUserAgent = "friendly-captcha-ios/\(VERSION) sdk/\(JS_SDK_VERSION)"
 
         webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = self
@@ -195,6 +199,8 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }
     }
 
+    // This method is defined in order to handle links clicked within the WebView.
+    // It ensures that the links open in the default browser app, rather than the WebView.
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
 
         // Handle links.
