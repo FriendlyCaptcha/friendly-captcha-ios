@@ -264,7 +264,13 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
 
         let config = WKWebViewConfiguration()
         config.userContentController = contentController
-        config.applicationNameForUserAgent = "friendly-captcha-ios/\(VERSION) sdk/\(JS_SDK_VERSION)"
+        if #available(iOS 9.0, *) {
+            config.applicationNameForUserAgent = "friendly-captcha-ios/\(VERSION) sdk/\(JS_SDK_VERSION)"
+        } else {
+            let userAgentScript = "navigator.userAgent = navigator.userAgent + ' friendly-captcha-ios/\(VERSION) sdk/\(JS_SDK_VERSION)';"
+            let userAgentScriptObject = WKUserScript(source: userAgentScript, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+            config.userContentController.addUserScript(userAgentScriptObject)
+        }
 
         webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = self
@@ -276,6 +282,10 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         if let htmlContent = htmlContent {
             webView.loadHTMLString(htmlContent, baseURL: nil)
         }
+    }
+
+    deinit {
+        destroy()
     }
 
     /**
@@ -324,7 +334,11 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
             if components?.scheme == "http" || components?.scheme == "https" {
 
                 // Open the link in the external browser.
-                UIApplication.shared.open(url)
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
 
                 // Cancel the decisionHandler because we managed the navigationAction.
                 decisionHandler(.cancel)
@@ -348,6 +362,9 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
 
         // Remove the message handler
         webView.configuration.userContentController.removeScriptMessageHandler(forName: "bus")
+
+        // Remove any installed user scripts
+        webView.configuration.userContentController.removeAllUserScripts()
 
         // Stop any loading and clear the WebView
         webView.stopLoading()
