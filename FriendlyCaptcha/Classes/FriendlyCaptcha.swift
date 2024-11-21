@@ -1,5 +1,5 @@
 import UIKit
-import WebKit
+@preconcurrency import WebKit
 
 let VERSION = "1.0.0"
 let JS_SDK_VERSION = "0.1.9"
