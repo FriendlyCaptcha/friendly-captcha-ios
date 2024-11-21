@@ -69,7 +69,7 @@ public class FriendlyCaptcha {
             sitekey: "\(sitekey)",
             apiEndpoint: "\(apiEndpoint)",
             theme: "\(getTheme())",
-            \(language != nil ? "language: '\(language!)'" : "")
+            language: "\(getLanguage())"
         });
 
         window.widget.addEventListener('frc:widget.complete', function(event) {
@@ -122,6 +122,18 @@ public class FriendlyCaptcha {
             }
             return "auto"
         }
+    }
+
+    /**
+     * Attempts to resolve a language based on the supplied parameter,
+     * falling back to the device language or "en" as a final resort.
+     */
+    private func getLanguage() -> String {
+        if language != nil {
+            return language!
+        }
+
+        return Locale.preferredLanguages.first ?? "en"
     }
 
     /**
