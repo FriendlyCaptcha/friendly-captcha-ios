@@ -4,6 +4,15 @@ import WebKit
 let VERSION = "1.0.0"
 let JS_SDK_VERSION = "0.1.9"
 
+/**
+ * The main entry point for the FriendlyCaptcha SDK.
+ * Each instance of this class manages a single Friendly Captcha widget.
+ *
+ * @param sitekey The sitekey to use for the widget. This value always starts with `FC`.
+ * @param apiEndpoint The API endpoint to use for the widget. Valid values are `"global"` and `"eu"` or a URL. Defaults to `"global"`.
+ * @param language The language to use for the widget. Defaults to the device language. Accepts values like `en` or `en-US`.
+ * @param theme The theme to use for the widget. This can be `"light"`, `"dark"` or `"auto" (which makes the browser decide)`.
+ */
 public class FriendlyCaptcha {
     private let sitekey: String
     private let apiEndpoint: String
@@ -90,18 +99,41 @@ public class FriendlyCaptcha {
 """
     }
 
+    /**
+     * Set a listener for when the widget completes. When this happens, you should
+     * enable the submit button on the action you are protecting and send the `response` to your server
+     * for verification.
+     */
     public func onComplete(_ handler: @escaping (WidgetCompleteEvent) -> Void) {
         viewController.handleComplete = handler
     }
 
+    /**
+     * Set a listener for when the widget encounters an error. The user will be able to click the
+     * widget to try again, maybe their internet connection was down temporarily.
+     *
+     * It's good practice to enable the submit button on the action you are protecting when this happens.
+     */
     public func onError(_ handler: @escaping (WidgetErrorEvent) -> Void) {
         viewController.handleError = handler
     }
 
+    /**
+     * Set a listener for when the widget expires. The user will be able to click the widget to try again.
+     * This happens if the user waits a very long time before submitting after completing the
+     * captcha challenge.
+     *
+     * It's good practice to disable the submit button on the action you are protecting when this happens.
+     */
     public func onExpire(_ handler: @escaping (WidgetExpireEvent) -> Void) {
         viewController.handleExpire = handler
     }
 
+    /**
+     * Set a listener for when the widget state changes - that means any change happens to the
+     * widget. You can use this to keep the `response` value in sync with the widget (that is the
+     * value you should send to your server to verify the captcha).
+     */
     public func onStateChange(_ handler: @escaping (WidgetStateChangeEvent) -> Void) {
         viewController.handleStateChange = { (message) in
             self.widgetState = message.state
@@ -110,26 +142,56 @@ public class FriendlyCaptcha {
         }
     }
 
+    /**
+     * Returns the current state of the widget.
+     * See the [Lifecycle](https://developer.friendlycaptcha.com/docs/v2/sdk/lifecycle) documentation for more information.
+     *
+     * @see WidgetState
+     */
     public func getState() -> WidgetState {
         widgetState
     }
 
+    /**
+     * Returns the `frc-captcha-response` value from the widget. This is the value you should send
+     * to your server to verify the captcha.
+     */
     public func getResponse() -> String {
         response
     }
 
+    /**
+     * Returns the UIViewController containing the WKWebView that renders the Friendly Captcha widget.
+     * This is the view you should add to your view hierarchy.
+     */
     public func Widget() -> UIViewController {
         viewController
     }
 
+    /**
+     * Trigger the widget to start a challenge. The widget will start a challenge solving in the background.
+     *
+     * The behavior of the widget depends on the mode of the Friendly Captcha application (sitekey):
+     *
+     * * In `interactive` mode, the user will need to click the widget to complete the process.
+     * * In `noninteractive` mode, the widget will complete the process automatically.
+     */
     public func start() {
         viewController.start()
     }
 
+    /**
+     * Reset the widget, removing any progress. This way it can be used again for another challenge.
+     */
     public func reset() {
         viewController.reset()
     }
 
+    /**
+     * Destroy the widget, hiding it from the view hierarchy.
+     *
+     * After calling this method, the widget handle is no longer usable.
+     */
     public func destroy() {
         widgetState = .destroyed
         response = ".DESTROYED"
@@ -145,6 +207,10 @@ public class FriendlyCaptcha {
     }
 }
 
+/**
+ * The UIViewController that renders the Friendly Captcha widget.
+ * Not intended to be used directly, but rather managed via the FriendlyCaptcha object.
+ */
 class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate {
     var htmlContent: String?
 
@@ -175,6 +241,9 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }
     }
 
+    /**
+     * Handles communication via JavaScript from within the WKWebView.
+     */
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if message.name == "bus",
            let body = message.body as? [String: Any],
@@ -199,8 +268,9 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }
     }
 
-    // This method is defined in order to handle links clicked within the WebView.
-    // It ensures that the links open in the default browser app, rather than the WebView.
+    /**
+     * Handle links clicked within the WebView. Ensures that the links open in the default browser app, rather than the WebView.
+     */
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
 
         // Handle links.
@@ -238,6 +308,7 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     }
 
     func destroy() {
+
         // Remove the message handler
         webView.configuration.userContentController.removeScriptMessageHandler(forName: "bus")
 
@@ -248,64 +319,4 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         webView = nil
         view = nil
     }
-}
-
-public enum WidgetState: String, Codable {
-    case initial = "init"
-    case reset
-    case unactivated
-    case activating
-    case activated
-    case requesting
-    case solving
-    case verifying
-    case completed
-    case expired
-    case error
-    case destroyed
-}
-
-public enum WidgetTheme {
-    case light
-    case dark
-    case auto
-}
-
-public struct WidgetCompleteEvent: Codable {
-    public let state: WidgetState
-    public let response: String
-    public let id: String
-}
-
-public struct WidgetErrorEvent: Codable {
-    public let state: WidgetState
-    public let response: String
-    public let error: WidgetErrorData
-    public let id: String
-}
-
-public struct WidgetExpireEvent: Codable {
-    public let state: WidgetState
-    public let response: String
-    public let id: String
-}
-
-public struct WidgetStateChangeEvent: Codable {
-    public let error: WidgetErrorData?
-    public let id: String
-    public let response: String
-    public let state: WidgetState
-}
-
-public struct WidgetErrorData: Codable {
-    public let code: WidgetErrorCode
-    public let detail: String
-    public let title: String?
-}
-
-public enum WidgetErrorCode: String, Codable {
-    case network_error
-    case sitekey_invalid
-    case sitekey_missing
-    case other
 }
