@@ -11,13 +11,13 @@ let JS_SDK_VERSION = "0.1.9"
  * @param sitekey The sitekey to use for the widget. This value always starts with `FC`.
  * @param apiEndpoint The API endpoint to use for the widget. Valid values are `"global"` and `"eu"` or a URL. Defaults to `"global"`.
  * @param language The language to use for the widget. Defaults to the device language. Accepts values like `en` or `en-US`.
- * @param theme The theme to use for the widget. This can be `"light"`, `"dark"` or `"auto" (which makes the browser decide)`.
+ * @param theme The theme to use for the widget. This can be `.light`, `.dark` or `.auto` (which makes the browser decide). If `nil`, defaults to `.auto`.
  */
 public class FriendlyCaptcha {
     private let sitekey: String
     private let apiEndpoint: String
     private let language: String?
-    private let theme: WidgetTheme
+    private let theme: WidgetTheme?
 
     private let viewController: WidgetViewController = WidgetViewController()
 
@@ -29,7 +29,7 @@ public class FriendlyCaptcha {
         sitekey: String,
         apiEndpoint: String = "global",
         language: String? = nil,
-        theme: WidgetTheme = .light
+        theme: WidgetTheme? = nil
     ) {
         self.sitekey = sitekey
         self.apiEndpoint = apiEndpoint
@@ -45,6 +45,7 @@ public class FriendlyCaptcha {
             self.response = message.response
             self.id = message.id
         }
+
         viewController.htmlContent = """
 <!DOCTYPE html>
 <html>
@@ -67,7 +68,7 @@ public class FriendlyCaptcha {
             element: mount,
             sitekey: "\(sitekey)",
             apiEndpoint: "\(apiEndpoint)",
-            theme: "\(theme)",
+            theme: "\(getTheme())",
             \(language != nil ? "language: '\(language!)'" : "")
         });
 
@@ -97,6 +98,30 @@ public class FriendlyCaptcha {
 </body>
 </html>
 """
+    }
+
+    /**
+     * Attempts to resolve a theme based on the supplied parameter and
+     * the current device settings, if available. Defaults to "auto".
+     */
+    private func getTheme() -> String {
+        if theme == .light {
+            return "light"
+        } else if theme == .dark {
+            return "dark"
+        } else {
+            if #available(iOS 12.0, *) {
+                switch viewController.traitCollection.userInterfaceStyle {
+                case .dark:
+                    return "dark"
+                case .light:
+                    return "light"
+                default:
+                    return "auto"
+                }
+            }
+            return "auto"
+        }
     }
 
     /**
