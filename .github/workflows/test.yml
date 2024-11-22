@@ -1,0 +1,32 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: select xcode version
+        run: sudo xcodes select 14.1 && xcodebuild -version
+
+      - name: install pods
+        run: pod install
+        working-directory: Example
+
+      - name: run tests
+        run: |
+          set -o pipefail && \
+          xcodebuild test \
+            -enableCodeCoverage YES \
+            -workspace Example/FriendlyCaptcha.xcworkspace \
+            -scheme FriendlyCaptcha-Example \
+            -sdk iphonesimulator16.1 \
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.1' | xcbeautify --renderer github-actions
