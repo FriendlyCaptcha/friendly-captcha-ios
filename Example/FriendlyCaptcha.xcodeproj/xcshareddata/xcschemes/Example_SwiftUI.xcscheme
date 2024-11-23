@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0900"
-   version = "1.3">
+   LastUpgradeVersion = "1600"
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
-      buildImplicitDependencies = "YES">
+      buildImplicitDependencies = "YES"
+      buildArchitectures = "Automatic">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -14,23 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-               BuildableName = "FriendlyCaptcha_Example.app"
-               BlueprintName = "FriendlyCaptcha_Example"
-               ReferencedContainer = "container:FriendlyCaptcha.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "FriendlyCaptcha_Tests.xctest"
-               BlueprintName = "FriendlyCaptcha_Tests"
+               BlueprintIdentifier = "6DFF40532CF14F96004D5196"
+               BuildableName = "Example_SwiftUI.app"
+               BlueprintName = "Example_SwiftUI"
                ReferencedContainer = "container:FriendlyCaptcha.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -40,37 +27,37 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      shouldAutocreateTestPlan = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "NO"
+            parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "FriendlyCaptcha_Tests.xctest"
-               BlueprintName = "FriendlyCaptcha_Tests"
+               BlueprintIdentifier = "6DFF406C2CF14F96004D5196"
+               BuildableName = "FriendlyCaptcha_SwiftUIUITests.xctest"
+               BlueprintName = "FriendlyCaptcha_SwiftUIUITests"
+               ReferencedContainer = "container:FriendlyCaptcha.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6DFF40622CF14F96004D5196"
+               BuildableName = "FriendlyCaptcha_SwiftUITests.xctest"
+               BlueprintName = "FriendlyCaptcha_SwiftUITests"
                ReferencedContainer = "container:FriendlyCaptcha.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "FriendlyCaptcha_Example.app"
-            BlueprintName = "FriendlyCaptcha_Example"
-            ReferencedContainer = "container:FriendlyCaptcha.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -81,14 +68,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "FriendlyCaptcha_Example.app"
-            BlueprintName = "FriendlyCaptcha_Example"
+            BlueprintIdentifier = "6DFF40532CF14F96004D5196"
+            BuildableName = "Example_SwiftUI.app"
+            BlueprintName = "Example_SwiftUI"
             ReferencedContainer = "container:FriendlyCaptcha.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -100,9 +85,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "FriendlyCaptcha_Example.app"
-            BlueprintName = "FriendlyCaptcha_Example"
+            BlueprintIdentifier = "6DFF40532CF14F96004D5196"
+            BuildableName = "Example_SwiftUI.app"
+            BlueprintName = "Example_SwiftUI"
             ReferencedContainer = "container:FriendlyCaptcha.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
