@@ -27,6 +27,6 @@ jobs:
           xcodebuild test \
             -enableCodeCoverage YES \
             -workspace Example/FriendlyCaptcha.xcworkspace \
-            -scheme FriendlyCaptcha-Example \
+            -scheme Example_UIKit \
             -sdk iphonesimulator16.1 \
             -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.1' | xcbeautify --renderer github-actions

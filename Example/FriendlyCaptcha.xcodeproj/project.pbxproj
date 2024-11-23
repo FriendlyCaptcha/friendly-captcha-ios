@@ -677,7 +677,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FriendlyCaptcha_Example.app/FriendlyCaptcha_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example_UIKit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Example_UIKit";
 			};
 			name = Debug;
 		};
@@ -696,7 +696,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FriendlyCaptcha_Example.app/FriendlyCaptcha_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example_UIKit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Example_UIKit";
 			};
 			name = Release;
 		};
