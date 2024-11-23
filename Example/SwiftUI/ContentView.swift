@@ -37,7 +37,7 @@ struct ContentView: View {
                 .frame(height: 70)
                 .padding(.horizontal, 20)
 
-            // 2. The submit button starts out disabled.
+            // 2. The form submission button starts out disabled.
             Button(action: {}) {
                 Text("Register")
                     .frame(maxWidth: .infinity)
