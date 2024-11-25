@@ -2,12 +2,13 @@
  * Constants for the different states of the FriendlyCaptcha widget.
  * One of "init" | "reset" | "unactivated" | "activating" | "activated" | "requesting" | "solving" | "verifying" | "completed" | "expired" | "error" | "destroyed";
  */
-public enum WidgetState: String, Codable {
+@objc
+public enum WidgetState: Int, Codable {
 
     /**
      * The widget is being initialized, it was probably just created.
      */
-    case initial = "init"
+    case initial
 
     /**
      * The widget was just reset - it will be `ready` again soon.
@@ -70,6 +71,84 @@ public enum WidgetState: String, Codable {
      * The widget has been destroyed. This means it is no longer usable.
      */
     case destroyed
+
+    private enum CodingKeys: String, CodingKey {
+        case initial = "init"
+        case reset
+        case unactivated
+        case activating
+        case activated
+        case requesting
+        case solving
+        case verifying
+        case completed
+        case expired
+        case error
+        case destroyed
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .initial:
+            try container.encode(CodingKeys.initial.rawValue)
+        case .reset:
+            try container.encode(CodingKeys.reset.rawValue)
+        case .unactivated:
+            try container.encode(CodingKeys.unactivated.rawValue)
+        case .activating:
+            try container.encode(CodingKeys.activating.rawValue)
+        case .activated:
+            try container.encode(CodingKeys.activated.rawValue)
+        case .requesting:
+            try container.encode(CodingKeys.requesting.rawValue)
+        case .solving:
+            try container.encode(CodingKeys.solving.rawValue)
+        case .verifying:
+            try container.encode(CodingKeys.verifying.rawValue)
+        case .completed:
+            try container.encode(CodingKeys.completed.rawValue)
+        case .expired:
+            try container.encode(CodingKeys.expired.rawValue)
+        case .error:
+            try container.encode(CodingKeys.error.rawValue)
+        case .destroyed:
+            try container.encode(CodingKeys.destroyed.rawValue)
+        }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        switch rawValue {
+        case CodingKeys.initial.rawValue:
+            self = .initial
+        case CodingKeys.reset.rawValue:
+            self = .reset
+        case CodingKeys.unactivated.rawValue:
+            self = .unactivated
+        case CodingKeys.activating.rawValue:
+            self = .activating
+        case CodingKeys.activated.rawValue:
+            self = .activated
+        case CodingKeys.requesting.rawValue:
+            self = .requesting
+        case CodingKeys.solving.rawValue:
+            self = .solving
+        case CodingKeys.verifying.rawValue:
+            self = .verifying
+        case CodingKeys.completed.rawValue:
+            self = .completed
+        case CodingKeys.expired.rawValue:
+            self = .expired
+        case CodingKeys.error.rawValue:
+            self = .error
+        case CodingKeys.destroyed.rawValue:
+            self = .destroyed
+        default:
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid WidgetState: \(rawValue)")
+        }
+    }
 }
 
 /**
@@ -79,7 +158,8 @@ public enum WidgetState: String, Codable {
  * * `"dark"`: a dark theme with a dark background.
  * * `"auto"`: the theme is automatically chosen based on the user's system preferences.
  */
-public enum WidgetTheme {
+@objc
+public enum WidgetTheme: Int {
     case light
     case dark
     case auto

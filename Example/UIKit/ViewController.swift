@@ -20,13 +20,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return textField
     }()
 
-    // 1. The form submission button starts out disabled.
     private let registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Register", for: .normal)
         button.backgroundColor = .gray
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
+
+        // 1. The form submission button starts out disabled.
         button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

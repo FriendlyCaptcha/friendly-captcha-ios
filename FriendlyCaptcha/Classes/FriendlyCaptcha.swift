@@ -13,11 +13,12 @@ let JS_SDK_VERSION = "0.1.9"
  * @param language The language to use for the widget. Defaults to the device language. Accepts values like `en` or `en-US`.
  * @param theme The theme to use for the widget. This can be `.light`, `.dark` or `.auto` (which makes the browser decide). If `nil`, defaults to `.auto`.
  */
-public class FriendlyCaptcha {
+@objc
+public class FriendlyCaptcha: NSObject {
     private let sitekey: String
     private let apiEndpoint: String
     private let language: String?
-    private let theme: WidgetTheme?
+    private let theme: WidgetTheme
 
     private let viewController: WidgetViewController = WidgetViewController()
 
@@ -25,18 +26,28 @@ public class FriendlyCaptcha {
     private var response: String = ""
     private var id: String = ""
 
+    @objc
     public init(
         sitekey: String,
         apiEndpoint: String = "global",
         language: String? = nil,
-        theme: WidgetTheme? = nil
+        theme: WidgetTheme = .auto
     ) {
         self.sitekey = sitekey
         self.apiEndpoint = apiEndpoint
         self.language = language
         self.theme = theme
 
+        super.init()
         setupViewController()
+    }
+
+    // Objective-C doesn't have default parameter values, so this convenience function is provided
+    // to allow initializing with only a sitekey. The rest of the parameters will use the defaults.
+    // In other cases, callers will need to supply all 4 parameters.
+    @objc
+    public convenience init(sitekey: String) {
+        self.init(sitekey: sitekey, apiEndpoint: "global", language: nil, theme: .auto)
     }
 
     private func setupViewController() {
@@ -141,6 +152,7 @@ public class FriendlyCaptcha {
      * enable the submit button on the action you are protecting and send the `response` to your server
      * for verification.
      */
+    @objc
     public func onComplete(_ handler: @escaping (WidgetCompleteEvent) -> Void) {
         viewController.handleComplete = handler
     }
@@ -151,6 +163,7 @@ public class FriendlyCaptcha {
      *
      * It's good practice to enable the submit button on the action you are protecting when this happens.
      */
+    @objc
     public func onError(_ handler: @escaping (WidgetErrorEvent) -> Void) {
         viewController.handleError = handler
     }
@@ -162,6 +175,7 @@ public class FriendlyCaptcha {
      *
      * It's good practice to disable the submit button on the action you are protecting when this happens.
      */
+    @objc
     public func onExpire(_ handler: @escaping (WidgetExpireEvent) -> Void) {
         viewController.handleExpire = handler
     }
@@ -171,6 +185,7 @@ public class FriendlyCaptcha {
      * widget. You can use this to keep the `response` value in sync with the widget (that is the
      * value you should send to your server to verify the captcha).
      */
+    @objc
     public func onStateChange(_ handler: @escaping (WidgetStateChangeEvent) -> Void) {
         viewController.handleStateChange = { (message) in
             self.widgetState = message.state
@@ -185,6 +200,7 @@ public class FriendlyCaptcha {
      *
      * @see WidgetState
      */
+    @objc
     public func getState() -> WidgetState {
         widgetState
     }
@@ -193,6 +209,7 @@ public class FriendlyCaptcha {
      * Returns the `frc-captcha-response` value from the widget. This is the value you should send
      * to your server to verify the captcha.
      */
+    @objc
     public func getResponse() -> String {
         response
     }
@@ -201,6 +218,7 @@ public class FriendlyCaptcha {
      * Returns the UIViewController containing the WKWebView that renders the Friendly Captcha widget.
      * This is the view you should add to your view hierarchy.
      */
+    @objc
     public func Widget() -> UIViewController {
         viewController
     }
@@ -213,6 +231,7 @@ public class FriendlyCaptcha {
      * * In `interactive` mode, the user will need to click the widget to complete the process.
      * * In `noninteractive` mode, the widget will complete the process automatically.
      */
+    @objc
     public func start() {
         viewController.start()
     }
@@ -220,6 +239,7 @@ public class FriendlyCaptcha {
     /**
      * Reset the widget, removing any progress. This way it can be used again for another challenge.
      */
+    @objc
     public func reset() {
         viewController.reset()
     }
@@ -229,6 +249,7 @@ public class FriendlyCaptcha {
      *
      * After calling this method, the widget handle is no longer usable.
      */
+    @objc
     public func destroy() {
         widgetState = .destroyed
         response = ".DESTROYED"
