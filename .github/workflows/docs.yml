@@ -39,7 +39,7 @@ jobs:
           xcodebuild -list && \
           xcodebuild \
             -workspace Example/FriendlyCaptcha.xcworkspace \
-            -scheme 'FriendlyCaptcha (Pods project)' \
+            -scheme 'FriendlyCaptcha' \
             -derivedDataPath docsData \
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
             docbuild
