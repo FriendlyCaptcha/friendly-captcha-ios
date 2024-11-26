@@ -24,7 +24,7 @@ TODO
 
 ## Documentation
 
-TODO
+The full API reference for the SDK is available [here](https://friendlycaptcha.github.io/friendly-captcha-ios/documentation/friendlycaptcha).
 
 ## Supported Platforms
 

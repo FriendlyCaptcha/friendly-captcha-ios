@@ -76,10 +76,11 @@ public class WidgetStateChangeEvent: NSObject, Codable {
     }
 }
 
+/// An object storing information about an error encountered by a widget.
 @objc
 public class WidgetErrorData: NSObject, Codable {
 
-    // A code describing the type of error encountered.
+    /// A code describing the type of error encountered.
     public let code: WidgetErrorCode
 
     /// More details about the error to help debugging.
@@ -91,7 +92,7 @@ public class WidgetErrorData: NSObject, Codable {
 
 /// Error codes that can be returned by the widget.
 ///
-/// In all cases, it's best practice to enable the "submit" button when the widget errors
+/// In all cases, it's best to enable the "submit" button when the widget errors
 /// so that the user can still perform the action, despite not having solved the captcha.
 @objc
 public enum WidgetErrorCode: Int, Codable {
