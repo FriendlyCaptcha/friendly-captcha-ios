@@ -35,7 +35,7 @@ public enum WidgetState: Int, Codable {
     /// The widget is verifying the solution.
     ///
     /// This means it is talking to the server to receive the final verification response,
-    /// which is what you will need to send to your own server to verify
+    /// which is what you will need to send to your own server to verify the captcha.
     case verifying
 
     /// The widget has completed the challenge solving process.

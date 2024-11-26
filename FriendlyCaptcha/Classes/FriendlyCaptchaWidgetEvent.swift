@@ -11,7 +11,7 @@
 @objc
 public class WidgetCompleteEvent: NSObject, Codable {
 
-    /// The current state of the widget, which will be `"completed"`.
+    /// The current state of the widget, which will be `completed`.
     public let state: WidgetState
 
 
@@ -26,7 +26,7 @@ public class WidgetCompleteEvent: NSObject, Codable {
 @objc
 public class WidgetErrorEvent: NSObject, Codable {
 
-    /// The current state of the widget, which will be `"error"`.
+    /// The current state of the widget, which will be `error`.
     public let state: WidgetState
 
     /// The current captcha response token.
@@ -44,8 +44,14 @@ public class WidgetErrorEvent: NSObject, Codable {
 /// This happens when the user takes too long to submit the captcha after it is solved.
 @objc
 public class WidgetExpireEvent: NSObject, Codable {
+
+    /// The current state of the widget, which will be `expired`.
     public let state: WidgetState
+
+    /// The current captcha response token.
     public let response: String
+
+    /// The ID of the widget from which the event originated.
     public let id: String
 }
 
@@ -55,7 +61,7 @@ public class WidgetStateChangeEvent: NSObject, Codable {
 
     /// The error that cased the state change, if any.
     ///
-    /// If `state` is not equal to `"error"`, this value will be `nil`.
+    /// If `state` is not equal to `error`, this value will be `nil`.
     public let error: WidgetErrorData?
 
     /// The ID of the widget from which the event originated.
