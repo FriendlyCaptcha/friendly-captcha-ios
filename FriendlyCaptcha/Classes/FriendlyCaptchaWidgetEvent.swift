@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) Friendly Captcha GmbH 2024.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 /**
  * Event that gets dispatched when the widget is completed. This happens when the user's browser has successfully passed the captcha challenge.
  */

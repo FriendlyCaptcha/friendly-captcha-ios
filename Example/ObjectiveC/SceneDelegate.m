@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.m
-//  test
-//
-//  Created by Aaron Greenberg on 11/25/24.
-//
-
 #import "SceneDelegate.h"
 
 @interface SceneDelegate ()

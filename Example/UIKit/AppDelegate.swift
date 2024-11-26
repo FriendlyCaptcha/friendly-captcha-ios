@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  FriendlyCaptcha
-//
-//  Created by greenberga on 11/13/2024.
-//  Copyright (c) 2024 greenberga. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain

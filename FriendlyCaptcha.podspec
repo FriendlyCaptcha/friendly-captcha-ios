@@ -11,12 +11,6 @@ Pod::Spec.new do |s|
   s.version          = '1.0.0'
   s.summary          = 'An iOS SDK for FriendlyCaptcha, a privacy-first bot protection service.'
 
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
   s.description      = <<-DESC
 Friendly Captcha is a service that protects websites from bots and abuse
 in a privacy-friendly and accessible way. This SDK is the official
@@ -25,20 +19,14 @@ iOS integration for Friendly Captcha.
 
   s.homepage         = 'https://github.com/FriendlyCaptcha/friendly-captcha-ios'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.license          = { :type => 'MPL 2.0', :file => 'FriendlyCaptcha/LICENSE' }
   s.author           = { 'greenberga' => 'aaron@friendlycaptcha.com' }
   s.source           = { :git => 'https://github.com/FriendlyCaptcha/friendly-captcha-ios.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
+  s.swift_version = '4.0'
 
   s.source_files = 'FriendlyCaptcha/Classes/**/*'
 
-  # s.resource_bundles = {
-  #   'FriendlyCaptcha' => ['FriendlyCaptcha/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.frameworks = 'UIKit', 'WebKit'
 end
