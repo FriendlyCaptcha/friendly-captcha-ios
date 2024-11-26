@@ -10,12 +10,12 @@ on:
 
 jobs:
   test:
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: select xcode version
-        run: sudo xcodes select 14.1 && xcodebuild -version
+        run: sudo xcodes select 15.1 && xcodebuild -version
 
       - name: install pods
         run: pod install
@@ -28,5 +28,5 @@ jobs:
             -enableCodeCoverage YES \
             -workspace Example/FriendlyCaptcha.xcworkspace \
             -scheme Example_UIKit \
-            -sdk iphonesimulator16.1 \
-            -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.1' | xcbeautify --renderer github-actions
+            -sdk iphonesimulator17.2 \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.2' | xcbeautify --renderer github-actions

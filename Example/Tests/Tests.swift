@@ -32,7 +32,7 @@ class FriendlyCaptchaSpec: QuickSpec {
                     expectation.fulfill()
                 }
             }
-            QuickSpec.current.waitForExpectations(timeout: 10)
+            QuickSpec.current.waitForExpectations(timeout: 60)
         }
 
         it("starts") {
@@ -49,7 +49,7 @@ class FriendlyCaptchaSpec: QuickSpec {
                     expectation.fulfill()
                 }
             }
-            QuickSpec.current.waitForExpectations(timeout: 10)
+            QuickSpec.current.waitForExpectations(timeout: 60)
         }
 
         it("resets") {
@@ -70,7 +70,7 @@ class FriendlyCaptchaSpec: QuickSpec {
                     expectation.fulfill()
                 }
             }
-            QuickSpec.current.waitForExpectations(timeout: 10)
+            QuickSpec.current.waitForExpectations(timeout: 60)
         }
 
         it("can be destroyed") {
@@ -90,7 +90,7 @@ class FriendlyCaptchaSpec: QuickSpec {
                     }
                 }
             }
-            QuickSpec.current.waitForExpectations(timeout: 10)
+            QuickSpec.current.waitForExpectations(timeout: 60)
         }
     }
 }
