@@ -48,7 +48,7 @@ jobs:
             process-archive \
             transform-for-static-hosting \
             "$(find /tmp/docbuild -name FriendlyCaptcha.doccarchive)" \
-            --hosting-base-path FriendlyCaptcha \
+            --hosting-base-path friendly-captcha-ios \
             --output-path docs
           
           echo "<script>window.location.href += '/documentation/friendlycaptcha'</script>" > docs/index.html
