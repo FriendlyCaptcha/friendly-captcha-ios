@@ -3,6 +3,7 @@ use_frameworks!
 platform :ios, '10.0'
 
 target 'Example_UIKit' do
+  project 'FriendlyCaptcha.xcodeproj'
   pod 'FriendlyCaptcha', :path => '../'
 
   target 'FriendlyCaptcha_Tests' do
@@ -14,10 +15,12 @@ target 'Example_UIKit' do
 end
 
 target 'Example_SwiftUI' do
+  project 'FriendlyCaptcha.xcodeproj'
   pod 'FriendlyCaptcha', :path => '../'
 end
 
 target 'Example_ObjC' do
+  project 'FriendlyCaptcha.xcodeproj'
   pod 'FriendlyCaptcha', :path => '../'
 end
 
