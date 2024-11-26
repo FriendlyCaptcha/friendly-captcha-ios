@@ -31,6 +31,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup CocoaPods
+        run: pod install
+        working-directory: Example
       - name: Build Archive
         run: |
           xcodebuild -list && \
@@ -41,8 +44,7 @@ jobs:
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
             docbuild
       - name: Process Archive
-        run: |
-          docc process-archive transform-for-static-hosting "$(find docsData -name FriendlyCaptcha.doccarchive)" --output-path docs
+        run: docc process-archive transform-for-static-hosting "$(find docsData -name FriendlyCaptcha.doccarchive)" --output-path docs
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
