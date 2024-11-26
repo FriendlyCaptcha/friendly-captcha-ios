@@ -5,56 +5,43 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/**
- * Event that gets dispatched when the widget is completed. This happens when the user's browser has successfully passed the captcha challenge.
- */
+/// Event that gets dispatched when the widget is completed.
+///
+/// This happens when the user's browser has successfully passed the captcha challenge.
 @objc
 public class WidgetCompleteEvent: NSObject, Codable {
-    /**
-     * The state of the widget: "completed"
-     */
+
+    /// The current state of the widget, which will be `"completed"`.
     public let state: WidgetState
 
-    /**
-     * The current captcha response token.
-     */
+
+    /// The current captcha response token.
     public let response: String
 
-    /**
-     * The widget ID that the event originated from.
-     */
+    /// The ID of the widget from which the event originated.
     public let id: String
 }
 
-/**
- * Event that gets dispatched when something goes wrong in the widget.
- */
+/// Event that gets dispatched when something goes wrong in the widget.
 @objc
 public class WidgetErrorEvent: NSObject, Codable {
-    /**
-     * The state of the widget: "error"
-     */
+
+    /// The current state of the widget, which will be `"error"`.
     public let state: WidgetState
 
-    /**
-     * The current captcha response token.
-     */
+    /// The current captcha response token.
     public let response: String
 
-    /**
-     * The error that caused the state change.
-     */
+    /// The error that caused the event to be triggered.
     public let error: WidgetErrorData
 
-    /**
-     * The widget ID that the event originated from.
-     */
+    /// The ID of the widget from which the event originated.
     public let id: String
 }
 
-/**
- * Event that gets dispatched when the widget expires. This happens when the user takes too long to submit the captcha after it is solved.
- */
+/// Event that gets dispatched when the widget expires.
+///
+/// This happens when the user takes too long to submit the captcha after it is solved.
 @objc
 public class WidgetExpireEvent: NSObject, Codable {
     public let state: WidgetState
@@ -62,30 +49,22 @@ public class WidgetExpireEvent: NSObject, Codable {
     public let id: String
 }
 
-/**
- * Event that gets dispatched when the widget enters a new state.
- */
+/// Event that gets dispatched when the widget enters a new state.
 @objc
 public class WidgetStateChangeEvent: NSObject, Codable {
 
-    /**
-     * The error that caused the state change, if any. `nil` if `state` is not equal to `"error"`.
-     */
+    /// The error that cased the state change, if any.
+    ///
+    /// If `state` is not equal to `"error"`, this value will be `nil`.
     public let error: WidgetErrorData?
 
-    /**
-     * The widget ID that the event originated from.
-     */
+    /// The ID of the widget from which the event originated.
     public let id: String
 
-    /**
-     * The current captcha response token.
-     */
+    /// The current captcha response token.
     public let response: String
 
-    /**
-     * The new state of the widget.
-     */
+    /// The new state of the widget.
     public let state: WidgetState
 
     // Required so this can be manually initialized in the FriendlyCaptcha.destroy() method.
@@ -100,36 +79,33 @@ public class WidgetStateChangeEvent: NSObject, Codable {
 @objc
 public class WidgetErrorData: NSObject, Codable {
 
-    /**
-     * The error code.
-     */
+    // A code describing the type of error encountered.
     public let code: WidgetErrorCode
 
-    /**
-     * More details about the error to help debugging.
-     * This value is not localized and will change between versions.
-     *
-     * You can log this, but make sure not to depend on it in your code.
-     */
+    /// More details about the error to help debugging.
+    ///
+    /// This value is not localized and will change between versions.
+    /// You can log it, but make sure not to depend on it in your code.
     public let detail: String
 }
 
-/**
- * Error codes that can be returned by the widget.
- *
- * * `"network_error"`: The user's browser could not connect to the Friendly Captcha API.
- * * `"sitekey_invalid"`: The sitekey is invalid.
- * * `"sitekey_missing"`: The sitekey is missing.
- * * `"other"`: Some other error occurred.
- *
- * In all cases it's the best practice to enable the "submit" button when the widget errors, so that the user can still
- * perform the action despite not having solved the captcha.
- */
+/// Error codes that can be returned by the widget.
+///
+/// In all cases, it's best practice to enable the "submit" button when the widget errors
+/// so that the user can still perform the action, despite not having solved the captcha.
 @objc
 public enum WidgetErrorCode: Int, Codable {
+
+    /// The user's browser could not connect to the Friendly Captcha API.
     case network_error
+
+    /// The sitekey is invalid.
     case sitekey_invalid
+
+    /// The sitekey is missing.
     case sitekey_missing
+
+    /// Some other error occurred.
     case other
 
     private enum CodingKeys: String, CodingKey {

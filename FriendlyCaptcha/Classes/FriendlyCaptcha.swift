@@ -11,15 +11,10 @@ import UIKit
 let VERSION = "1.0.0"
 let JS_SDK_VERSION = "0.1.9"
 
-/**
- * The main entry point for the FriendlyCaptcha SDK.
- * Each instance of this class manages a single Friendly Captcha widget.
- *
- * @param sitekey The sitekey to use for the widget. This value always starts with `FC`.
- * @param apiEndpoint The API endpoint to use for the widget. Valid values are `"global"` and `"eu"` or a URL. Defaults to `"global"`.
- * @param language The language to use for the widget. Defaults to the device language. Accepts values like `en` or `en-US`.
- * @param theme The theme to use for the widget. This can be `.light`, `.dark` or `.auto` (which makes the browser decide). If `nil`, defaults to `.auto`.
- */
+/// A class for interacting with the Friendly Captcha widget.
+///
+/// This class is the main entry point for the Friendly Captcha SDK. Each instance provides and manages a UIViewController containing a
+/// WKWebView that renders the Friendly Captcha widget.
 @objc
 public class FriendlyCaptcha: NSObject {
     private let sitekey: String
@@ -33,6 +28,13 @@ public class FriendlyCaptcha: NSObject {
     private var response: String = ""
     private var id: String = ""
 
+    /// Initialize an instance of the FriendlyCaptcha class.
+    ///
+    /// - Parameters:
+    ///  - sitekey: The sitekey to use for the widget. This value always starts with `FC`.
+    ///  - apiEndpoint: The API endpoint to use for the widget. Valid arguments are `"global"`, `"eu"`, or a URL. Defaults to `"global"`.
+    ///  - language: The language to use for the widget. Defaults to the device language. Accepts values like `en` or `en-US`.
+    ///  - theme: The theme to use for the widget. This can be `.light`, `.dark`, or `.auto` (which makes the browser or device decide). If `nil`, defaults to `.auto`.
     @objc
     public init(
         sitekey: String,
@@ -118,10 +120,8 @@ public class FriendlyCaptcha: NSObject {
 """
     }
 
-    /**
-     * Attempts to resolve a theme based on the supplied parameter and
-     * the current device settings, if available. Defaults to "auto".
-     */
+    // Attempts to resolve a theme based on the supplied parameter and
+    // the current device settings, if available. Defaults to "auto".
     private func getTheme() -> String {
         if theme == .light {
             return "light"
@@ -142,10 +142,8 @@ public class FriendlyCaptcha: NSObject {
         }
     }
 
-    /**
-     * Attempts to resolve a language based on the supplied parameter,
-     * falling back to the device language or "en" as a final resort.
-     */
+    // Attempts to resolve a language based on the supplied parameter,
+    // falling back to the device language or "en" as a final resort.
     private func getLanguage() -> String {
         if language != nil {
             return language!
@@ -154,44 +152,45 @@ public class FriendlyCaptcha: NSObject {
         return Locale.preferredLanguages.first ?? "en"
     }
 
-    /**
-     * Set a listener for when the widget completes. When this happens, you should
-     * enable the submit button on the action you are protecting and send the `response` to your server
-     * for verification.
-     */
+    /// Set a callback function to be invoked when the widget completes.
+    ///
+    /// When this happens, you should enable the submit button or unblock the action you are protecting and include the
+    /// `response` string in your back-end verification request.
+    ///
+    /// - Parameter handler: The callback function to be invoked when the widget completes.
     @objc
     public func onComplete(_ handler: @escaping (WidgetCompleteEvent) -> Void) {
         viewController.handleComplete = handler
     }
 
-    /**
-     * Set a listener for when the widget encounters an error. The user will be able to click the
-     * widget to try again, maybe their internet connection was down temporarily.
-     *
-     * It's good practice to enable the submit button on the action you are protecting when this happens.
-     */
+    /// Set a callback function to be invoked when the widget errors.
+    ///
+    /// The user will be able to click the widget to try again. This might happen if their internet connection was temporarily down.
+    /// It's good practice to **enable** the submit button or **unblock** the action you are protecting when this happens.
+    ///
+    /// - Parameter handler: The callback function to be invoked when the widget errors.
     @objc
     public func onError(_ handler: @escaping (WidgetErrorEvent) -> Void) {
         viewController.handleError = handler
     }
 
-    /**
-     * Set a listener for when the widget expires. The user will be able to click the widget to try again.
-     * This happens if the user waits a very long time before submitting after completing the
-     * captcha challenge.
-     *
-     * It's good practice to disable the submit button on the action you are protecting when this happens.
-     */
+    /// Set a callback function to be invoked when the widget expires.
+    ///
+    /// The user will be able to click the widget to try again. This might happen if the user waits
+    /// a very long time before submitting after completing the captcha challenge. It's good practice
+    /// to **disable** the submit button or **block** the action you are protecting when this happens.
+    ///
+    /// - Parameter handler: The callback function to be invoked when the widget expires.
     @objc
     public func onExpire(_ handler: @escaping (WidgetExpireEvent) -> Void) {
         viewController.handleExpire = handler
     }
 
-    /**
-     * Set a listener for when the widget state changes - that means any change happens to the
-     * widget. You can use this to keep the `response` value in sync with the widget (that is the
-     * value you should send to your server to verify the captcha).
-     */
+    /// Set a callback function to be invoked when the widget's state changes.
+    ///
+    /// This callback will be invoked in response to any state change (including—but not limited to—completion, error, and expiration).
+    ///
+    /// - Parameter handler: The callback function to be invoked when the widget's state changes.
     @objc
     public func onStateChange(_ handler: @escaping (WidgetStateChangeEvent) -> Void) {
         viewController.handleStateChange = { (message) in
@@ -201,61 +200,59 @@ public class FriendlyCaptcha: NSObject {
         }
     }
 
-    /**
-     * Returns the current state of the widget.
-     * See the [Lifecycle](https://developer.friendlycaptcha.com/docs/v2/sdk/lifecycle) documentation for more information.
-     *
-     * @see WidgetState
-     */
+    /// Get the current state of the widget.
+    ///
+    /// See the [Lifecycle](https://developer.friendlycaptcha.com/docs/v2/sdk/lifecycle) documentation for more information.
+    ///
+    /// - Returns: The current state of the widget.
     @objc
     public func getState() -> WidgetState {
         widgetState
     }
 
-    /**
-     * Returns the `frc-captcha-response` value from the widget. This is the value you should send
-     * to your server to verify the captcha.
-     */
+    /// Get the current widget response.
+    ///
+    /// This is the value you should send to your back-end to verify the captcha.
+    ///
+    /// - Returns: The current widget response.
     @objc
     public func getResponse() -> String {
         response
     }
 
-    /**
-     * Returns the UIViewController containing the WKWebView that renders the Friendly Captcha widget.
-     * This is the view you should add to your view hierarchy.
-     */
+    /// Get the ViewController used for rendering the widget.
+    ///
+    /// This ViewController contains a WKWebView that renders the Friendly Captcha widget.
+    /// You should add this ViewController to your view hierarchy.
+    ///
+    /// - Returns: A reference to the ViewController that renders the widget.
     @objc
     public func Widget() -> UIViewController {
         viewController
     }
 
-    /**
-     * Trigger the widget to start a challenge. The widget will start a challenge solving in the background.
-     *
-     * The behavior of the widget depends on the mode of the Friendly Captcha application (sitekey):
-     *
-     * * In `interactive` mode, the user will need to click the widget to complete the process.
-     * * In `noninteractive` mode, the widget will complete the process automatically.
-     */
+    /// Trigger the widget to start solving a challenge.
+    ///
+    /// The solving will take place in the background. The behavior of the widget depends on the mode of the Friendly Captcha application.
+    ///
+    /// * In `interactive` mode, the user will need to click the widget to complete the process.
+    /// * In `noninteractive` mode, the widget will complete the process
     @objc
     public func start() {
         viewController.start()
     }
 
-    /**
-     * Reset the widget, removing any progress. This way it can be used again for another challenge.
-     */
+    /// Reset the widget, removing any progress.
+    ///
+    /// After resetting, the widget can be used again for another challenge.
     @objc
     public func reset() {
         viewController.reset()
     }
 
-    /**
-     * Destroy the widget, hiding it from the view hierarchy.
-     *
-     * After calling this method, the widget handle is no longer usable.
-     */
+    /// Destroy the widget, removing it from the view hierarchy.
+    ///
+    /// After calling this method, the widget handle is no longer usable.
     @objc
     public func destroy() {
         widgetState = .destroyed
@@ -272,10 +269,9 @@ public class FriendlyCaptcha: NSObject {
     }
 }
 
-/**
- * The UIViewController that renders the Friendly Captcha widget.
- * Not intended to be used directly, but rather managed via the FriendlyCaptcha object.
- */
+
+// The UIViewController that renders the Friendly Captcha widget.
+// Not intended to be used directly, but rather managed via the FriendlyCaptcha object.
 class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate {
     var htmlContent: String?
 
@@ -316,9 +312,7 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         destroy()
     }
 
-    /**
-     * Handles communication via JavaScript from within the WKWebView.
-     */
+    // Handles communication via JavaScript from within the WKWebView.
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if message.name == "bus",
            let body = message.body as? [String: Any],
@@ -343,9 +337,7 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }
     }
 
-    /**
-     * Handle links clicked within the WebView. Ensures that the links open in the default browser app, rather than the WebView.
-     */
+    // Handle links clicked within the WebView. Ensures that the links open in the default browser app, rather than the WebView.
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
 
         // Handle links.
