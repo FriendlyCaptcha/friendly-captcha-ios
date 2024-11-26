@@ -31,20 +31,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Select Xcode
+        run: sudo xcodes select 15.1 && xcodebuild -version
       - name: Setup CocoaPods
         run: pod install
         working-directory: Example
       - name: Build Archive
         run: |
-          xcodebuild -list && \
-          xcodebuild \
+          xcodebuild docbuild \
             -workspace Example/FriendlyCaptcha.xcworkspace \
             -scheme 'FriendlyCaptcha' \
-            -derivedDataPath docsData \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
-            docbuild
-      - name: Process Archive
-        run: "$(xcrun --find docc)" process-archive transform-for-static-hosting "$(find docsData -name FriendlyCaptcha.doccarchive)" --output-path docs
+            -derivedDataPath /tmp/docbuild \
+            -destination 'generic/platform=iOS'
+          
+          $(xcrun --find docc) \
+            process-archive \
+            transform-for-static-hosting \
+            "$(find /tmp/docbuild -name FriendlyCaptcha.doccarchive)" \
+            --hosting-base-path FriendlyCaptcha \
+            --output-path docs
+          
+          echo "<script>window.location.href += '/documentation/friendlycaptcha'</script>" > docs/index.html
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
