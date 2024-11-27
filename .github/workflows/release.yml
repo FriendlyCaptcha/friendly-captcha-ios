@@ -1,0 +1,96 @@
+name: release
+
+on:
+  release:
+    types: [ published ]
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  cocoapods:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check version
+        run: |
+          VERSION=$(cat FriendlyCaptcha.podspec | grep version | grep -Eo '\d+\.\d+\.\d+')
+          if [ "$VERSION" != "${{ github.event.release.tag_name }}" ]; then
+            echo "Version mismatch: FriendlyCaptcha.podspec is $VERSION, but release tag is ${{ github.event.release.tag_name }}"
+            exit 1
+          fi
+
+      - name: Select Xcode
+        run: sudo xcodes select 15.1 && xcodebuild -version
+
+      - name: Push to CocoaPods
+        run: pod trunk push FriendlyCaptcha.podspec
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+
+  carthage:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check version
+        run: |
+          VERSION=$(cat FriendlyCaptcha.podspec | grep version | grep -Eo '\d+\.\d+\.\d+')
+          if [ "$VERSION" != "${{ github.event.release.tag_name }}" ]; then
+            echo "Version mismatch: FriendlyCaptcha.podspec is $VERSION, but release tag is ${{ github.event.release.tag_name }}"
+            exit 1
+          fi
+
+      - name: Select Xcode
+        run: sudo xcodes select 15.1 && xcodebuild -version
+
+      - name: Setup Schemes
+        run: pod install
+        working-directory: Example
+
+      - name: Push to Carthage
+        run: |
+          carthage build --no-skip-current --archive
+
+  docs:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Select Xcode
+        run: sudo xcodes select 15.1 && xcodebuild -version
+      - name: Setup CocoaPods
+        run: pod install
+        working-directory: Example
+      - name: Generate Documentation
+        run: |
+          xcodebuild docbuild \
+            -workspace Example/FriendlyCaptcha.xcworkspace \
+            -scheme 'FriendlyCaptcha' \
+            -derivedDataPath /tmp/docbuild \
+            -destination 'generic/platform=iOS'
+
+          $(xcrun --find docc) \
+            process-archive \
+            transform-for-static-hosting \
+            "$(find /tmp/docbuild -name FriendlyCaptcha.doccarchive)" \
+            --hosting-base-path friendly-captcha-ios \
+            --output-path docs
+
+          echo "<script>window.location.href += '/documentation/friendlycaptcha'</script>" > docs/index.html
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
