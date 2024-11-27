@@ -1,4 +1,4 @@
-name: release
+name: Release
 
 on:
   release:
@@ -54,7 +54,12 @@ jobs:
 
       - name: Push to Carthage
         run: |
-          carthage build --no-skip-current --archive
+          carthage build --no-skip-current --use-xcframeworks --archive
+
+      - name: Attach framework to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: FriendlyCaptcha.framework.zip
 
   docs:
     environment:
