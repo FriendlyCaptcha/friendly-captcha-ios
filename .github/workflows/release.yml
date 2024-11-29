@@ -54,12 +54,18 @@ jobs:
 
       - name: Push to Carthage
         run: |
-          carthage build --no-skip-current --use-xcframeworks --archive
+          carthage build --no-skip-current --use-xcframeworks
+          zip -q -r --symlinks FriendlyCaptcha.xcframework.zip Carthage/Build/FriendlyCaptcha.xcframework
+          zip -q -r --symlinks FriendlyCaptcha.framework.zip \
+            Carthage/Build/FriendlyCaptcha.xcframework/ios-arm64/FriendlyCaptcha.framework \
+            Carthage/Build/FriendlyCaptcha.xcframework/ios-arm64/dSYMs/FriendlyCaptcha.framework.dSYM
 
       - name: Attach framework to release
         uses: softprops/action-gh-release@v2
         with:
-          files: FriendlyCaptcha.framework.zip
+          files:
+            - FriendlyCaptcha.xcframework.zip
+            - FriendlyCaptcha.framework.zip
 
   docs:
     environment:
