@@ -13,29 +13,35 @@ struct ContentView: View {
     )
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack {
+            HStack {
+                Text("Login")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                Spacer()
+            }
 
             // 1. When either the username field or the password field are focused,
             // `handle.start()` is called, allowing the widget to start solving.
             TextField("Username", text: $username)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal, 20)
                 .focused($isFocused)
                 .onChange(of: isFocused) {
                     handle.start()
                 }
+                .padding(.bottom, 10)
 
             SecureField("Password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal, 20)
                 .focused($isFocused)
                 .onChange(of: isFocused) {
                     handle.start()
                 }
+                .padding(.bottom, 10)
 
             FCWidgetView(handle: handle)
                 .frame(height: 70)
-                .padding(.horizontal, 20)
+                .padding(.bottom, 10)
 
             // 2. The form submission button starts out disabled.
             Button(action: {}) {
@@ -47,7 +53,15 @@ struct ContentView: View {
                     .cornerRadius(5)
             }
             .disabled(disabled)
-            .padding(.horizontal, 20)
+            .padding(.bottom, 5)
+
+            HStack{
+                Text("This is an example app.\nYou can enter any username or password.")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                Spacer()
+            }
+
 
         }.onAppear() {
 
@@ -69,8 +83,7 @@ struct ContentView: View {
                 disabled = true
             }
         }
-        .frame(maxHeight: .infinity, alignment: .top)
-        .padding(.top, 20)
+        .padding(.horizontal, 20)
     }
 }
 
