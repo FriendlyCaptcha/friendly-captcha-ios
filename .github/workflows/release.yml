@@ -63,9 +63,9 @@ jobs:
       - name: Attach framework to release
         uses: softprops/action-gh-release@v2
         with:
-          files:
-            - FriendlyCaptcha.xcframework.zip
-            - FriendlyCaptcha.framework.zip
+          files: |
+            FriendlyCaptcha.xcframework.zip
+            FriendlyCaptcha.framework.zip
 
   docs:
     environment:
