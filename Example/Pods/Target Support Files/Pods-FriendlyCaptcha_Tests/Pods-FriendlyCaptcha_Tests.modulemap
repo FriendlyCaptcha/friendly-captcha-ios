@@ -1,0 +1,6 @@
+framework module Pods_FriendlyCaptcha_Tests {
+  umbrella header "Pods-FriendlyCaptcha_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}
