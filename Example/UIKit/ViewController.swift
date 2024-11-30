@@ -3,6 +3,14 @@ import WebKit
 import FriendlyCaptcha
 
 class ViewController: UIViewController, UITextFieldDelegate {
+    private let loginTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Login"
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     private let usernameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Username"
@@ -33,6 +41,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return button
     }()
 
+    private let exampleCaptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "This is an example app.\nYou can enter any username or password."
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = .gray
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     // A UIView is created to contain the FriendlyCaptcha Widget view.
     private let captchaContainer: UIView = {
         let view = UIView()
@@ -57,28 +75,29 @@ class ViewController: UIViewController, UITextFieldDelegate {
     private func setupUI() {
         view.backgroundColor = .white
 
-        view.addSubview(usernameTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(captchaContainer)
-        view.addSubview(registerButton)
+        let stackView = UIStackView(arrangedSubviews: [
+            loginTitleLabel,
+            usernameTextField,
+            passwordTextField,
+            captchaContainer,
+            registerButton,
+            exampleCaptionLabel
+        ])
+        stackView.axis = .vertical
+        stackView.spacing = 15
+        stackView.alignment = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            usernameTextField.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: 20),
-            usernameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            usernameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
 
-            passwordTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 20),
-            passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-
-            captchaContainer.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20),
-            captchaContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            captchaContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            exampleCaptionLabel.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 10),
             captchaContainer.heightAnchor.constraint(equalToConstant: 70),
-
-            registerButton.topAnchor.constraint(equalTo: captchaContainer.bottomAnchor, constant: 20),
-            registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             registerButton.heightAnchor.constraint(equalToConstant: 44)
         ])
 
