@@ -4,10 +4,13 @@
 
 @interface ViewController : UIViewController <UITextFieldDelegate>
 
+@property (nonatomic, strong) UILabel *loginTitleLabel;
 @property (nonatomic, strong) UITextField *usernameTextField;
 @property (nonatomic, strong) UITextField *passwordTextField;
 @property (nonatomic, strong) UIButton *registerButton;
+@property (nonatomic, strong) UILabel *exampleCaptionLabel;
 @property (nonatomic, strong) UIView *captchaContainer;
+@property (nonatomic, strong) UIStackView *stackView;
 @property (nonatomic, strong) FriendlyCaptcha *handle;
 
 @end
@@ -18,6 +21,16 @@
     [super viewDidLoad];
     [self setupUI];
     [self setupFriendlyCaptcha];
+}
+
+- (UILabel *)loginTitleLabel {
+    if (!_loginTitleLabel) {
+        _loginTitleLabel = [[UILabel alloc] init];
+        _loginTitleLabel.text = @"Login";
+        _loginTitleLabel.font = [UIFont boldSystemFontOfSize:24];
+        _loginTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _loginTitleLabel;
 }
 
 - (UITextField *)usernameTextField {
@@ -41,6 +54,13 @@
     return _passwordTextField;
 }
 
+- (UIStackView *)stackView {
+    if (!_stackView) {
+        _stackView = [[UIStackView alloc] init];
+    }
+    return _stackView;
+}
+
 - (UIButton *)registerButton {
     if (!_registerButton) {
         _registerButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -54,6 +74,18 @@
         _registerButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _registerButton;
+}
+
+- (UILabel *)exampleCaptionLabel {
+    if (!_exampleCaptionLabel) {
+        _exampleCaptionLabel = [[UILabel alloc] init];
+        _exampleCaptionLabel.text = @"This is an example app.\nYou can enter any username or password.";
+        _exampleCaptionLabel.font = [UIFont systemFontOfSize:14];
+        _exampleCaptionLabel.textColor = [UIColor grayColor];
+        _exampleCaptionLabel.numberOfLines = 0;
+        _exampleCaptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _exampleCaptionLabel;
 }
 
 // A UIView is created to contain the FriendlyCaptcha Widget view.
@@ -79,29 +111,29 @@
 }
 
 - (void)setupUI {
-    [self.view addSubview:self.usernameTextField];
-    [self.view addSubview:self.passwordTextField];
-    [self.view addSubview:self.registerButton];
-    [self.view addSubview:self.captchaContainer];
+    [self.stackView addArrangedSubview:self.loginTitleLabel];
+    [self.stackView addArrangedSubview:self.usernameTextField];
+    [self.stackView addArrangedSubview:self.passwordTextField];
+    [self.stackView addArrangedSubview:self.captchaContainer];
+    [self.stackView addArrangedSubview:self.registerButton];
+    [self.stackView addArrangedSubview:self.exampleCaptionLabel];
+    
+    self.stackView.axis = UILayoutConstraintAxisVertical;
+    self.stackView.spacing = 15;
+    self.stackView.alignment = UIStackViewAlignmentFill;
+    self.stackView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.view addSubview:self.stackView];
 
     [NSLayoutConstraint activateConstraints:@[
-        [self.usernameTextField.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:20],
-        [self.usernameTextField.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20],
-        [self.usernameTextField.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20],
-
-        [self.passwordTextField.topAnchor constraintEqualToAnchor:self.usernameTextField.bottomAnchor constant:20],
-        [self.passwordTextField.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20],
-        [self.passwordTextField.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20],
-
-        [self.captchaContainer.topAnchor constraintEqualToAnchor:self.passwordTextField.bottomAnchor constant:20],
-        [self.captchaContainer.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20],
-        [self.captchaContainer.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20],
+        [self.stackView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+        [self.stackView.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor],
+        [self.stackView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20],
+        [self.stackView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20],
+        
+        [self.exampleCaptionLabel.topAnchor constraintEqualToAnchor:self.registerButton.bottomAnchor constant:10],
         [self.captchaContainer.heightAnchor constraintEqualToConstant:70],
-
-        [self.registerButton.topAnchor constraintEqualToAnchor:self.captchaContainer.bottomAnchor constant:20],
-        [self.registerButton.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20],
-        [self.registerButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20],
-        [self.registerButton.heightAnchor constraintEqualToConstant:44],
+        [self.registerButton.heightAnchor constraintEqualToConstant:44]
     ]];
 
     self.usernameTextField.delegate = self;
