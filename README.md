@@ -52,8 +52,10 @@ Xcode can be finicky; sometimes closing and restarting it can clear reported err
 
 ## Screenshots
 
-![An example disabled login page with Friendly Captcha](https://raw.githubusercontent.com/FriendlyCaptcha/friendly-captcha-ios/main/screenshots/disabled.png)
-![An example enabled login page with Friendly Captcha](https://raw.githubusercontent.com/FriendlyCaptcha/friendly-captcha-ios/main/screenshots/enabled.png)
+<p float="left">
+  <img width="45%" alt="An example disabled login page with Friendly Captcha" src="https://raw.githubusercontent.com/FriendlyCaptcha/friendly-captcha-ios/main/screenshots/disabled.png" />
+  <img width="45%" alt="An example enabled login page with Friendly Captcha" src="https://raw.githubusercontent.com/FriendlyCaptcha/friendly-captcha-ios/main/screenshots/enabled.png" />
+</p>
 
 ## License
 
