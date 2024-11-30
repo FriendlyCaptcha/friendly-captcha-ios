@@ -13,7 +13,7 @@ This SDK is available via CocoaPods and Carthage. You can find the latest versio
 Add the following line to your Podfile:
 
 ```
-pod 'FriendlyCaptcha', '~> 0.1.1'
+pod 'FriendlyCaptcha', '~> 0.1.2'
 ```
 
 ### Carthage
@@ -21,7 +21,7 @@ pod 'FriendlyCaptcha', '~> 0.1.1'
 Add the following line to your Cartfile:
 
 ```
-github "FriendlyCaptcha/friendly-captcha-ios" ~> 0.1.1
+github "FriendlyCaptcha/friendly-captcha-ios" ~> 0.1.2
 ```
 
 ## Documentation
