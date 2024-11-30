@@ -6,7 +6,7 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -31,41 +31,6 @@ jobs:
         run: pod trunk push FriendlyCaptcha.podspec
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-
-  carthage:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Check version
-        run: |
-          VERSION=$(cat FriendlyCaptcha.podspec | grep version | grep -Eo '\d+\.\d+\.\d+')
-          if [ "$VERSION" != "${{ github.event.release.tag_name }}" ]; then
-            echo "Version mismatch: FriendlyCaptcha.podspec is $VERSION, but release tag is ${{ github.event.release.tag_name }}"
-            exit 1
-          fi
-
-      - name: Select Xcode
-        run: sudo xcodes select 15.1 && xcodebuild -version
-
-      - name: Setup Schemes
-        run: pod install
-        working-directory: Example
-
-      - name: Push to Carthage
-        run: |
-          carthage build --no-skip-current --use-xcframeworks
-          zip -q -r --symlinks FriendlyCaptcha.xcframework.zip Carthage/Build/FriendlyCaptcha.xcframework
-          zip -q -r --symlinks FriendlyCaptcha.framework.zip \
-            Carthage/Build/FriendlyCaptcha.xcframework/ios-arm64/FriendlyCaptcha.framework \
-            Carthage/Build/FriendlyCaptcha.xcframework/ios-arm64/dSYMs/FriendlyCaptcha.framework.dSYM
-
-      - name: Attach framework to release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            FriendlyCaptcha.xcframework.zip
-            FriendlyCaptcha.framework.zip
 
   docs:
     environment:
