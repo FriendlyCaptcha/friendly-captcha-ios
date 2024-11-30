@@ -18,9 +18,9 @@ iOS integration for Friendly Captcha.
                        DESC
 
   s.homepage         = 'https://github.com/FriendlyCaptcha/friendly-captcha-ios'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.screenshots      = 'https://raw.githubusercontent.com/FriendlyCaptcha/friendly-captcha-ios/main/screenshots/disabled.png', 'https://raw.githubusercontent.com/FriendlyCaptcha/friendly-captcha-ios/main/screenshots/enabled.png'
   s.license          = { :type => 'MPL 2.0', :file => 'FriendlyCaptcha/LICENSE' }
-  s.author           = { 'friendlycaptcha' => 'dev@friendlycaptcha.com' }
+  s.author           = { 'Friendly Captcha Engineering' => 'dev@friendlycaptcha.com' }
   s.source           = { :git => 'https://github.com/FriendlyCaptcha/friendly-captcha-ios.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
