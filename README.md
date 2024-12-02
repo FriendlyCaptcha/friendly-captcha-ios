@@ -1,4 +1,5 @@
 # Friendly Captcha iOS SDK
+[![Cocoapods Version](https://img.shields.io/cocoapods/v/FriendlyCaptcha)](https://cocoapods.org/pods/FriendlyCaptcha) [![Cocoapods Platforms](https://img.shields.io/cocoapods/p/FriendlyCaptcha)](https://cocoapods.org/pods/FriendlyCaptcha) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 The Friendly Captcha iOS SDK allows you to easily integrate [Friendly Captcha](https://friendlycaptcha.com) into your iOS applications.
 
