@@ -51,6 +51,18 @@ To run an example app in Xcode, clone the repo, and run `pod install` from the E
 
 Xcode can be finicky; sometimes closing and restarting it can clear reported errors.
 
+### Testing
+
+Tests for the SDK are located [in the `Example` directory](https://github.com/FriendlyCaptcha/friendly-captcha-ios/tree/main/Example/Tests). This appears to be [an artifact of how CocoaPods structures a library](https://github.com/CocoaPods/CocoaPods/issues/4755#issuecomment-170940549).
+
+If running the tests in Xcode, make sure that the `Example_UIKit` scheme is selected. You can also run the tests from the command line:
+
+```
+xcodebuild -workspace Example/FriendlyCaptcha.xcworkspace -scheme Example_UIKit test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.0'
+```
+
+Depending on which simulators you have installed, you may need to change the version numbers in the `-destination` argument. You can pipe the output into [`xcbeautify`](https://github.com/cpisciotta/xcbeautify), if it's available.
+
 ## Screenshots
 
 <p float="left">
