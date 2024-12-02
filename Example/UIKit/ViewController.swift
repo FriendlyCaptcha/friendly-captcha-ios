@@ -58,7 +58,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return view
     }()
 
-    private let handle = FriendlyCaptcha(sitekey: "FCMKRFNE60ACKCDC")
+    private let handle = FriendlyCaptcha(sitekey: "FCMGD7SIQS6JUH0G")
 
     override func viewDidLoad() {
         super.viewDidLoad()

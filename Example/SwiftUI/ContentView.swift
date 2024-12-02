@@ -9,7 +9,7 @@ struct ContentView: View {
     @FocusState private var isFocused: Bool
 
     private let handle = FriendlyCaptcha(
-        sitekey: "FCMKRFNE60ACKCDC"
+        sitekey: "FCMGD7SIQS6JUH0G"
     )
 
     var body: some View {

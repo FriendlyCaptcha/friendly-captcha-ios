@@ -12,7 +12,7 @@ class FriendlyCaptchaSpec: QuickSpec {
 
         beforeEach {
             window = UIWindow(frame: UIScreen.main.bounds)
-            handle = FriendlyCaptcha(sitekey: "FCMKRFNE60ACKCDC")
+            handle = FriendlyCaptcha(sitekey: "FCMGD7SIQS6JUH0G")
 
             window.rootViewController = handle.Widget()
             window.makeKeyAndVisible()

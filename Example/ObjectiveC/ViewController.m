@@ -99,7 +99,7 @@
 
 - (FriendlyCaptcha *)handle {
     if (!_handle) {
-        _handle = [[FriendlyCaptcha alloc] initWithSitekey:@"FCMKRFNE61OM0D4Q"];
+        _handle = [[FriendlyCaptcha alloc] initWithSitekey:@"FCMGD7SIQS6JUH0G"];
     }
     return _handle;
 }
