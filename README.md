@@ -46,7 +46,12 @@ Tests for the SDK are located [in the `Example` directory](https://github.com/Fr
 If running the tests in Xcode, make sure that the `Example_UIKit` scheme is selected. You can also run the tests from the command line:
 
 ```
-xcodebuild -workspace Example/FriendlyCaptcha.xcworkspace -scheme Example_UIKit test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.0'
+xcodebuild \
+  -workspace Example/FriendlyCaptcha.xcworkspace \
+  -scheme Example_UIKit \
+  test \
+    -sdk iphonesimulator \
+    -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.0'
 ```
 
 Depending on which simulators you have installed, you may need to change the version numbers in the `-destination` argument. You can pipe the output into [`xcbeautify`](https://github.com/cpisciotta/xcbeautify), if it's available.
