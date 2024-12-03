@@ -37,19 +37,7 @@ If you have trouble with the above installation methods, it should be possible t
 
 ## Usage
 
-This repository contains 3 minimal example apps to show how to integrate Friendly Captcha.
-
-| Xcode Scheme | UI Framework | Language | Integration Example |
-| ------------ | ------------ | -------- | ---- |
-| Example_UIKit | UIKit | Swift | [ViewController.swift](https://github.com/FriendlyCaptcha/friendly-captcha-ios/blob/main/Example/UIKit/ViewController.swift) |
-| Example_ObjC | UIKit | Objective-C | [ViewController.m](https://github.com/FriendlyCaptcha/friendly-captcha-ios/blob/main/Example/ObjectiveC/ViewController.m) |
-| Example_SwiftUI | SwiftUI | Swift | [ContentView.swift](https://github.com/FriendlyCaptcha/friendly-captcha-ios/blob/main/Example/SwiftUI/ContentView.swift) |
-
-To run an example app in Xcode, clone the repo, and run `pod install` from the Example directory first. Then, start Xcode and, when prompted to open an existing project, open the xcworkspace located at `Example/FriendlyCaptcha.xcworkspace`. Make sure the desired example app scheme is selected, along with an iOS Simulator:
-
-![Xcode scheme and destination selector](https://raw.githubusercontent.com/FriendlyCaptcha/friendly-captcha-ios/main/screenshots/xcode-top-bar.png)
-
-Xcode can be finicky; sometimes closing and restarting it can clear reported errors.
+This repository contains 3 minimal example apps to show how to integrate Friendly Captcha. For more information, including about how to run them locally, see [the README in the Example folder](https://github.com/FriendlyCaptcha/friendly-captcha-ios/tree/main/Example).
 
 ### Testing
 

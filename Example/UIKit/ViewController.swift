@@ -2,10 +2,12 @@ import UIKit
 import WebKit
 import FriendlyCaptcha
 
+let alwaysSuccess = false
+
 class ViewController: UIViewController, UITextFieldDelegate {
     private let loginTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Login"
+        label.text = "Welcome"
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -28,9 +30,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return textField
     }()
 
-    private let registerButton: UIButton = {
+    private let loginButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Register", for: .normal)
+        button.setTitle("Log in", for: .normal)
         button.backgroundColor = .gray
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
@@ -80,7 +82,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             usernameTextField,
             passwordTextField,
             captchaContainer,
-            registerButton,
+            loginButton,
             exampleCaptionLabel
         ])
         stackView.axis = .vertical
@@ -96,13 +98,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
 
-            exampleCaptionLabel.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 10),
+            exampleCaptionLabel.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 10),
             captchaContainer.heightAnchor.constraint(equalToConstant: 70),
-            registerButton.heightAnchor.constraint(equalToConstant: 44)
+            loginButton.heightAnchor.constraint(equalToConstant: 44)
         ])
 
         usernameTextField.delegate = self
         passwordTextField.delegate = self
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     }
 
     private func setupFriendlyCaptcha() {
@@ -125,23 +128,81 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         // 3. If the widget successfully completes, the button is enabled.
         handle.onComplete { [weak self] _ in
-            self?.registerButton.isEnabled = true
-            self?.registerButton.backgroundColor = .systemBlue
+            self?.loginButton.isEnabled = true
+            self?.loginButton.backgroundColor = .systemBlue
         }
 
         // 4. If the widget errors, the button is _still_ enabled. This
         // "fail open" approach prevents the scenario where all users are
         // blocked from submitting the form.
         handle.onError { [weak self] _ in
-            self?.registerButton.isEnabled = false
-            self?.registerButton.backgroundColor = .gray
+            self?.loginButton.isEnabled = false
+            self?.loginButton.backgroundColor = .gray
         }
 
         // 5. If the widget expires, the button is disabled. The user will
         // need to restart the widget.
         handle.onExpire { [weak self] _ in
-            self?.registerButton.isEnabled = false
-            self?.registerButton.backgroundColor = .gray
+            self?.loginButton.isEnabled = false
+            self?.loginButton.backgroundColor = .gray
+        }
+    }
+
+    // 6. When the captcha is done and the response available, it needs to
+    // be sent to the back-end for verification, along with any other
+    // server-side validation.
+    //
+    // See https://developer.friendlycaptcha.com/docs/v2/getting-started/verify
+    @objc private func loginButtonTapped() {
+        if alwaysSuccess {
+            showAlert(message: "Always successful!", success: true)
+            return
+        }
+
+        let url = URL(string: "http://localhost:3600/login")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let loginData: [String: String] = [
+            "username": usernameTextField.text ?? "",
+            "password": passwordTextField.text ?? "",
+            "frc-captcha-response": handle.getResponse()
+        ]
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: loginData, options: [])
+        } catch {
+            print("Error serializing login data: \(error)")
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error logging in: \(error)")
+                return
+            }
+
+            if let data = data {
+                do {
+                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+
+                    if let responseDict = jsonResponse as? [String: Any],
+                       let message = responseDict["message"] as? String,
+                       let success = responseDict["success"] as? Bool {
+                        self.showAlert(message: message, success: success)
+                    }
+                } catch {
+                    print("Error parsing response: \(error)")
+                }
+            }
+        }.resume()
+    }
+
+    private func showAlert(message: String, success: Bool) {
+        let alert = UIAlertController(title: success ? "Success" : "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        DispatchQueue.main.async {
+            self.present(alert, animated: true)
         }
     }
 }
