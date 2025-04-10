@@ -1,6 +1,6 @@
 {
   "name": "FriendlyCaptcha",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "summary": "An iOS SDK for FriendlyCaptcha, a privacy-first bot protection service.",
   "description": "Friendly Captcha is a service that protects websites from bots and abuse\nin a privacy-friendly and accessible way. This SDK is the official\niOS integration for Friendly Captcha.",
   "homepage": "https://github.com/FriendlyCaptcha/friendly-captcha-ios",
@@ -17,9 +17,9 @@
   },
   "source": {
     "git": "https://github.com/FriendlyCaptcha/friendly-captcha-ios.git",
-    "tag": "1.0.0"
+    "tag": "1.0.1"
   },
-  "readme": "https://raw.githubusercontent.com/FriendlyCaptcha/friendly-captcha-ios/refs/tags/1.0.0/README.md",
+  "readme": "https://raw.githubusercontent.com/FriendlyCaptcha/friendly-captcha-ios/refs/tags/1.0.1/README.md",
   "platforms": {
     "ios": "9.0"
   },
