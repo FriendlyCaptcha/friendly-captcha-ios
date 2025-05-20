@@ -5,6 +5,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import Foundation
+
 /// Constants for the different states of the FriendlyCaptcha widget.
 @objc
 public enum WidgetState: Int, Codable {
