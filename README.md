@@ -25,6 +25,16 @@ Add the following line to your Cartfile:
 github "FriendlyCaptcha/friendly-captcha-ios" ~> 1.0.1
 ```
 
+### Swift Package Manager
+
+Add the following package repository URL to your dependencies:
+
+```
+dependencies: [
+    .package(url: "https://github.com/riendlyCaptcha/friendly-captcha-ios.git", .upToNextMinor(from: "1.0.1"))
+]
+```
+
 ## Documentation
 
 The full API reference for the SDK is available [here](https://friendlycaptcha.github.io/friendly-captcha-ios/documentation/friendlycaptcha).

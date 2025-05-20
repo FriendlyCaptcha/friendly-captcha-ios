@@ -5,6 +5,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import Foundation
+
 /// Event that gets dispatched when the widget is completed.
 ///
 /// This happens when the user's browser has successfully passed the captcha challenge.
