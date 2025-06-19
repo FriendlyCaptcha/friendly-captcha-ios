@@ -9,20 +9,31 @@ The Friendly Captcha iOS SDK allows you to easily integrate [Friendly Captcha](h
 
 This SDK is available via CocoaPods and Carthage. You can find the latest version number on the [Releases](https://github.com/FriendlyCaptcha/friendly-captcha-ios/releases) page.
 
-### CocoaPods
+### SPM
 
-Add the following line to your Podfile:
+Add the following to the list of dependencies in your `Package.swift`:
 
 ```
-pod 'FriendlyCaptcha', '~> 1.0.1'
+.package(
+    url: "https://github.com/FriendlyCaptcha/friendly-captcha-ios.git",
+    .upToNextMinor(from: "1.0.1")
+)
 ```
 
 ### Carthage
 
-Add the following line to your Cartfile:
+Add the following line to your `Cartfile`:
 
 ```
 github "FriendlyCaptcha/friendly-captcha-ios" ~> 1.0.1
+```
+
+### CocoaPods
+
+Add the following line to your `Podfile`:
+
+```
+pod 'FriendlyCaptcha', '~> 1.0.1'
 ```
 
 ## Documentation
