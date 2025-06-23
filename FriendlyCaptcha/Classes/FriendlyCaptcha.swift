@@ -7,6 +7,7 @@
 
 import UIKit
 @preconcurrency import WebKit
+import Foundation
 
 let VERSION = "1.0.1"
 let JS_SDK_VERSION = "0.1.21"
