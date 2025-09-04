@@ -9,8 +9,7 @@ import UIKit
 @preconcurrency import WebKit
 import Foundation
 
-let VERSION = "1.0.1"
-let JS_SDK_VERSION = "0.1.21"
+let VERSION = "1.0.2"
 
 /// A class for interacting with the Friendly Captcha widget.
 ///
@@ -75,7 +74,7 @@ public class FriendlyCaptcha: NSObject {
 </head>
 <body style="margin: 0">
   <div id="widget" style="width: 100%; font-size: 16px"></div>
-  <script src="https://cdn.jsdelivr.net/npm/@friendlycaptcha/sdk@\(JS_SDK_VERSION)/site.compat.min.js"></script>
+  <script>\(JS_SDK)</script>
   <script>
     function send(type, data) {
         window.webkit.messageHandlers.bus.postMessage({type, data});

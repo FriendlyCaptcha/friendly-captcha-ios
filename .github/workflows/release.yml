@@ -25,7 +25,7 @@ jobs:
           fi
 
       - name: Select Xcode
-        run: sudo xcodes select 15.1 && xcodebuild -version
+        run: sudo xcodes select 16.4 && xcodebuild -version
 
       - name: Push to CocoaPods
         run: pod trunk push FriendlyCaptcha.podspec
@@ -41,7 +41,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Select Xcode
-        run: sudo xcodes select 15.1 && xcodebuild -version
+        run: sudo xcodes select 16.4 && xcodebuild -version
       - name: Setup CocoaPods
         run: pod install
         working-directory: Example
