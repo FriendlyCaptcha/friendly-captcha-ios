@@ -9,7 +9,7 @@ import UIKit
 @preconcurrency import WebKit
 import Foundation
 
-let VERSION = "1.0.3"
+let VERSION = "1.0.4"
 
 /// A class for interacting with the Friendly Captcha widget.
 ///
@@ -318,21 +318,25 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
            let body = message.body as? [String: Any],
            let type = body["type"] as? String,
            let jsonData = try? JSONSerialization.data(withJSONObject: body["data"] as Any) {
-            switch type {
-            case "complete":
-                let message = try! JSONDecoder().decode(WidgetCompleteEvent.self, from: jsonData)
-                handleComplete(message)
-            case "error":
-                let message = try! JSONDecoder().decode(WidgetErrorEvent.self, from: jsonData)
-                handleError(message)
-            case "expire":
-                let message = try! JSONDecoder().decode(WidgetExpireEvent.self, from: jsonData)
-                handleExpire(message)
-            case "statechange":
-                let message = try! JSONDecoder().decode(WidgetStateChangeEvent.self, from: jsonData)
-                handleStateChange(message)
-            default:
-                print("Unknown message type", body)
+            do {
+                switch type {
+                case "complete":
+                    let message = try JSONDecoder().decode(WidgetCompleteEvent.self, from: jsonData)
+                    handleComplete(message)
+                case "error":
+                    let message = try JSONDecoder().decode(WidgetErrorEvent.self, from: jsonData)
+                    handleError(message)
+                case "expire":
+                    let message = try JSONDecoder().decode(WidgetExpireEvent.self, from: jsonData)
+                    handleExpire(message)
+                case "statechange":
+                    let message = try JSONDecoder().decode(WidgetStateChangeEvent.self, from: jsonData)
+                    handleStateChange(message)
+                default:
+                    print("FriendlyCaptcha: Unknown message type", body)
+                }
+            } catch {
+                print("FriendlyCaptcha: Failed to decode '\(type)' event: \(error)")
             }
         }
     }
