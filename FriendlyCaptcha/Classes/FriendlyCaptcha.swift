@@ -334,9 +334,21 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                     handleStateChange(message)
                 default:
                     print("FriendlyCaptcha: Unknown message type", body)
+                    handleError(WidgetErrorEvent(
+                        state: .error,
+                        response: "",
+                        error: WidgetErrorData(code: .other, detail: "Unknown message type: \(body)"),
+                        id: ""
+                    ))
                 }
             } catch {
                 print("FriendlyCaptcha: Failed to decode '\(type)' event: \(error)")
+                handleError(WidgetErrorEvent(
+                    state: .error,
+                    response: "",
+                    error: WidgetErrorData(code: .other, detail: "Failed to decode '\(type)' event: \(error)"),
+                    id: ""
+                ))
             }
         }
     }

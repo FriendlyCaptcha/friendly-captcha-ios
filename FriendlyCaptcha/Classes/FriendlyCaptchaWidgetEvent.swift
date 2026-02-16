@@ -39,6 +39,13 @@ public class WidgetErrorEvent: NSObject, Codable {
 
     /// The ID of the widget from which the event originated.
     public let id: String
+
+    init(state: WidgetState, response: String, error: WidgetErrorData, id: String) {
+        self.state = state
+        self.response = response
+        self.error = error
+        self.id = id
+    }
 }
 
 /// Event that gets dispatched when the widget expires.
@@ -96,6 +103,11 @@ public class WidgetErrorData: NSObject, Codable {
     /// This value is not localized and will change between versions.
     /// You can log it, but make sure not to depend on it in your code.
     public let detail: String
+
+    init(code: WidgetErrorCode, detail: String) {
+        self.code = code
+        self.detail = detail
+    }
 }
 
 /// Error codes that can be returned by the widget.
