@@ -16,7 +16,7 @@ Add the following to the list of dependencies in your `Package.swift`:
 ```
 .package(
     url: "https://github.com/FriendlyCaptcha/friendly-captcha-ios.git",
-    .upToNextMinor(from: "1.0.3")
+    .upToNextMinor(from: "1.0.4")
 )
 ```
 
@@ -25,7 +25,7 @@ Add the following to the list of dependencies in your `Package.swift`:
 Add the following line to your `Cartfile`:
 
 ```
-github "FriendlyCaptcha/friendly-captcha-ios" ~> 1.0.3
+github "FriendlyCaptcha/friendly-captcha-ios" ~> 1.0.4
 ```
 
 ### CocoaPods
@@ -33,7 +33,7 @@ github "FriendlyCaptcha/friendly-captcha-ios" ~> 1.0.3
 Add the following line to your `Podfile`:
 
 ```
-pod 'FriendlyCaptcha', '~> 1.0.3'
+pod 'FriendlyCaptcha', '~> 1.0.4'
 ```
 
 ## Documentation

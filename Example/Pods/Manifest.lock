@@ -1,5 +1,5 @@
 PODS:
-  - FriendlyCaptcha (1.0.3)
+  - FriendlyCaptcha (1.0.4)
   - Nimble (10.0.0)
   - Quick (5.0.1)
 
@@ -18,7 +18,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  FriendlyCaptcha: 30622a9ab93ffde0c328758e712cf62829939dbe
+  FriendlyCaptcha: 25e9a7d7d4f03fc42e00487f72a19c59a0a4c5a1
   Nimble: 5316ef81a170ce87baf72dd961f22f89a602ff84
   Quick: 749aa754fd1e7d984f2000fe051e18a3a9809179
 
