@@ -73,6 +73,63 @@ class FriendlyCaptchaSpec: QuickSpec {
             QuickSpec.current.waitForExpectations(timeout: 60)
         }
 
+        it("triggers error callback for unknown message type") {
+            let expectation = QuickSpec.current.expectation(description: "unknown message type error")
+            handle.onError { event in
+                expect(event.error.code) == .other
+                expect(event.error.detail).to(contain("Unknown message type"))
+                expectation.fulfill()
+            }
+            handle.onStateChange { event in
+                if event.state == .unactivated {
+                    let webView = handle.Widget().view as! WKWebView
+                    webView.evaluateJavaScript(
+                        "window.webkit.messageHandlers.bus.postMessage({type: 'unknown_test_type', data: {}})",
+                        completionHandler: nil
+                    )
+                }
+            }
+            QuickSpec.current.waitForExpectations(timeout: 60)
+        }
+
+        it("triggers error callback when message data cannot be decoded") {
+            let expectation = QuickSpec.current.expectation(description: "unable to decode to message")
+            handle.onError { event in
+                expect(event.error.code) == .other
+                expect(event.error.detail).to(contain("Failed to decode"))
+                expectation.fulfill()
+            }
+            handle.onStateChange { event in
+                if event.state == .unactivated {
+                    let webView = handle.Widget().view as! WKWebView
+                    webView.evaluateJavaScript(
+                        "window.webkit.messageHandlers.bus.postMessage({type: 'complete', data: {invalid: true}})",
+                        completionHandler: nil
+                    )
+                }
+            }
+            QuickSpec.current.waitForExpectations(timeout: 60)
+        }
+
+        it("triggers error callback when message data is not valid json") {
+            let expectation = QuickSpec.current.expectation(description: "unable to deserialize json error")
+            handle.onError { event in
+                expect(event.error.code) == .other
+                expect(event.error.detail).to(contain("Failed to decode"))
+                expectation.fulfill()
+            }
+            handle.onStateChange { event in
+                if event.state == .unactivated {
+                    let webView = handle.Widget().view as! WKWebView
+                    webView.evaluateJavaScript(
+                        "window.webkit.messageHandlers.bus.postMessage({type: 'complete', data: 'invalid'})",
+                        completionHandler: nil
+                    )
+                }
+            }
+            QuickSpec.current.waitForExpectations(timeout: 60)
+        }
+
         it("can be destroyed") {
             expect(handle.Widget().viewIfLoaded).to(beAnInstanceOf(WKWebView.self))
             let expectation = QuickSpec.current.expectation(description: "destroy")

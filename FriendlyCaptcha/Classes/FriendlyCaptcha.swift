@@ -316,9 +316,9 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if message.name == "bus",
            let body = message.body as? [String: Any],
-           let type = body["type"] as? String,
-           let jsonData = try? JSONSerialization.data(withJSONObject: body["data"] as Any) {
+           let type = body["type"] as? String {
             do {
+                let jsonData = try JSONSerialization.data(withJSONObject: body["data"] as Any, options: .fragmentsAllowed)
                 switch type {
                 case "complete":
                     let message = try JSONDecoder().decode(WidgetCompleteEvent.self, from: jsonData)
