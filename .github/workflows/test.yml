@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: select xcode version
-        run: sudo xcodes select 16.4 && xcodebuild -version
+        run: sudo xcodes select 26.6 && xcodebuild -version
 
       - name: install pods
         run: pod install
@@ -28,5 +28,4 @@ jobs:
             -enableCodeCoverage YES \
             -workspace Example/FriendlyCaptcha.xcworkspace \
             -scheme Example_UIKit \
-            -sdk iphonesimulator18.5 \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' | xcbeautify --renderer github-actions
+            -destination 'platform=iOS Simulator,name=iPhone 17' | xcbeautify --renderer github-actions
