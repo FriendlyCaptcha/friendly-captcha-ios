@@ -149,5 +149,29 @@ class FriendlyCaptchaSpec: QuickSpec {
             }
             QuickSpec.current.waitForExpectations(timeout: 60)
         }
+
+        it("does not crash when destroyed without ever being displayed") {
+            let undisplayedHandle = FriendlyCaptcha(sitekey: "FCMGD7SIQS6JUH0G")
+            undisplayedHandle.destroy()
+            expect(undisplayedHandle.getState()) == .destroyed
+        }
+
+        it("does not crash when released after being destroyed") {
+            autoreleasepool {
+                let shortLivedHandle = FriendlyCaptcha(sitekey: "FCMGD7SIQS6JUH0G")
+                _ = shortLivedHandle.Widget().view
+                shortLivedHandle.destroy()
+            }
+        }
+
+        it("is deallocated when released without calling destroy") {
+            weak var weakHandle: FriendlyCaptcha?
+            autoreleasepool {
+                let shortLivedHandle = FriendlyCaptcha(sitekey: "FCMGD7SIQS6JUH0G")
+                _ = shortLivedHandle.Widget().view
+                weakHandle = shortLivedHandle
+            }
+            expect(weakHandle).to(beNil())
+        }
     }
 }

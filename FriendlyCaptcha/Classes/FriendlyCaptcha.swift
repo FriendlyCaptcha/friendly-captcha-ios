@@ -60,10 +60,10 @@ public class FriendlyCaptcha: NSObject {
     }
 
     private func setupViewController() {
-        viewController.handleStateChange = { message in
-            self.widgetState = message.state
-            self.response = message.response
-            self.id = message.id
+        viewController.handleStateChange = { [weak self] message in
+            self?.widgetState = message.state
+            self?.response = message.response
+            self?.id = message.id
         }
 
         viewController.htmlContent = """
@@ -193,9 +193,9 @@ public class FriendlyCaptcha: NSObject {
     /// - Parameter handler: The callback function to be invoked when the widget's state changes.
     @objc
     public func onStateChange(_ handler: @escaping (WidgetStateChangeEvent) -> Void) {
-        viewController.handleStateChange = { (message) in
-            self.widgetState = message.state
-            self.response = message.response
+        viewController.handleStateChange = { [weak self] (message) in
+            self?.widgetState = message.state
+            self?.response = message.response
             handler(message)
         }
     }
@@ -395,6 +395,8 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     }
 
     func destroy() {
+        // Nothing to clean up if the view was never loaded, or if destroy() was already called.
+        guard let webView = webView else { return }
 
         // Remove the message handler
         webView.configuration.userContentController.removeScriptMessageHandler(forName: "bus")
@@ -406,7 +408,7 @@ class WidgetViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         webView.stopLoading()
         webView.navigationDelegate = nil
         webView.removeFromSuperview()
-        webView = nil
+        self.webView = nil
         view = nil
     }
 }
